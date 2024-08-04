@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 30px;
+}
+.title {
+  /* margin-left: 20px; */
+  display: flex;
+  position: relative;
+}
+
+.title > h1 {
+  font-size: 35px;
+  font-weight: bold;
+  font-family: 'Amatic SC', sans-serif;
+}
+.title > img {
+  width: 40px;
+  height: auto;
+  position: absolute;
+  top: 0;
+  right: -40px;
+}
+header > input {
+  max-width: 700px;
+  margin-left: 55px;
+  margin-bottom: 20px;
+  padding: 5px;
+  border-radius: 8px;
+  flex-grow: 1;
+  outline: 1px solid var(--color-button-background);
+}
+
+header > ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+#login-link {
+  color: var(--color-dark-blue);
+  font-weight: bold;
+  position: relative;
+  padding: 10px 16px;
+  display: flex;
+}
+#register-link {
+  padding: 10px 16px;
+  color: var(--color-white);
+  font-weight: bold;
+  background-color: var(--color-button-background);
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+#register-link:hover {
+  background-color: var(--color-pink-shadow);
+}
+
+#login-link::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2.5px;
+  background-color: var(--color-dark-blue);
+  bottom: 0;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+#login-link:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}

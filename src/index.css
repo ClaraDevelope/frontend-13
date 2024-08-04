@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&family=Marvel:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=News+Cycle:wght@400;700&family=Righteous&family=Syne+Mono&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+:root {
+  /* colors */
+  --color-text: #615f5f;
+  --color-text-secondary: #1a1919;
+  --color-text-terciary: #edeaea;
+  --color-white: #ffffffe2;
+  --color-white-2: #ffffff;
+  --color-button-background: #d53f8c;
+  --color-pink-shadow: #b83280;
+  --color-button-background-2: #007bff;
+  --color-blur: #eaeaea9d;
+  --color-light-gray: #ccc;
+  --color-checkbox: #8400ff;
+  --color-checkbox-2: #8400ff5c;
+  --color-checkbox-3: #ff0000b6;
+  --color-light-blue: #f2fcfe;
+  --color-dark-blue: #318ba7;
+  /* spacings */
+  --br-s: 8px;
+  --br-m: 10px;
+  --br-l: 20px;
+  --br-xl: 50%;
+
+  --mp-s: 10px;
+  --mp-m: 20px;
+  --mp-l: 50px;
+  --mp-xl: 100px;
+}
+
+body,
+html {
+  min-height: 100vh;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Montserrat', sans-serif; */
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+button {
+  cursor: pointer;
+}
