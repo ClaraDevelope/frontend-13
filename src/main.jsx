@@ -8,6 +8,8 @@ import Register from './pages/Register/Register.jsx'
 import Login from './pages/Login/Login.jsx'
 import Header from './components/Header/Header.jsx'
 import AuthProvider from './providers/AuthProvider.jsx'
+import Home from './pages/Home/Home.jsx'
+import Principal from './pages/Principal/Principal.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider>
@@ -17,20 +19,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Header/>
            <Routes> 
            <Route path='/' element={<App />} />
+           <Route index path='/Home' element={<Home/>} />
             <Route path='/Register' element={<Register/>} />
             <Route path='/Login' element={<Login/>} />
-           {/* <Route index element={<Home />} />
-            <Route path='/form-search-project' element={<SearchFormPage />} />
-            <Route
-              path='/projects'
-              element={<AllProjects projects={PROJECTS} />}
-            />
-            <Route
-              path='/projects/search/:searchValue'
-              element={<AllProjects />}
-            />
-            <Route path='/project/:id' element={<Project />} />
-            <Route path='*' element={<NotFound />} /> */}
+            <Route path='/Principal' element={<Principal/>} />
           </Routes>
        </BrowserRouter>
      </React.StrictMode>

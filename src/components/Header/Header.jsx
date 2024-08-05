@@ -1,35 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { useAuth } from '../../providers/AuthProvider';
 
 const Header = () => {
   const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate()
+
+  const handleLogout=()=>{
+    logout()
+    navigate('/Home')
+  }
 
   return (
     <header>
       <div className='title'>
-        <h1>MenstruApp</h1>
-        <img src="./flor.webp" alt="logo-menstruApp" />
+        <Link to='/Home'>
+        <h1 className='principal-title'>MenstruApp</h1>
+        <img src="./flor.webp" alt="logo-menstruApp" className='logo'/>
+        </Link>
       </div>
       <input type="text" name="" id="" />
       <ul>
         {isAuthenticated ? (
           <>
             <li>
-              <Link to='/profile' id='profile-link'>Mi perfil</Link>
+              <Link to='/profile' id='profile-link' className='nav-link'>Mi perfil</Link>
             </li>
             <li>
-              <button onClick={logout} id='logout-button'>Cerrar sesión</button>
+              <button onClick={handleLogout} id='logout-button' className='nav-link'>Cerrar sesión</button>
             </li>
           </>
         ) : (
           <>
             <li>
-              <Link to='/login' id='login-link'>Iniciar sesión</Link>
+              <Link to='/Login' id='login-link' className='nav-link'>Iniciar sesión</Link>
             </li>
             <li>
-              <Link to='/register' id='register-link'>Registrarse</Link>
+              <Link to='/Register' id='register-link'>Registrarse</Link>
             </li>
           </>
         )}

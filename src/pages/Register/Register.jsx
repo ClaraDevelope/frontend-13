@@ -3,9 +3,9 @@ import FormRegister from '../../components/Forms/FormRegister/FormRegister'
 
 const Register = () => {
   return (
-    <div>
+    <>
       <FormRegister/>
-    </div>
+    </>
   )
 }
 

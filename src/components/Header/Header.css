@@ -13,12 +13,12 @@ header {
   position: relative;
 }
 
-.title > h1 {
+.principal-title {
   font-size: 35px;
   font-weight: bold;
   font-family: 'Amatic SC', sans-serif;
 }
-.title > img {
+.logo {
   width: 40px;
   height: auto;
   position: absolute;
@@ -41,7 +41,7 @@ header > ul {
   align-items: center;
   gap: 50px;
 }
-#login-link {
+.nav-link {
   color: var(--color-dark-blue);
   font-weight: bold;
   position: relative;
@@ -60,7 +60,7 @@ header > ul {
   background-color: var(--color-pink-shadow);
 }
 
-#login-link::before {
+.nav-link::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -73,7 +73,7 @@ header > ul {
   transition: transform 0.2s ease-in-out;
 }
 
-#login-link:hover::before {
+.nav-link:hover::before {
   transform-origin: left;
   transform: scaleX(1);
 }
