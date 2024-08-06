@@ -34,6 +34,7 @@ const FormLogin = () => {
       console.log('Respuesta del login:', response);
 
       localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user)); 
       login(response.token); 
       navigate('/Principal')
     } catch (error) {

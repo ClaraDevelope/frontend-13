@@ -1,36 +1,51 @@
 import React, { useState } from 'react';
-import dayjs from 'dayjs';
-import "dayjs/locale/es";
-import Calendar from '../../components/Calendar/Calendar';
-
-
-dayjs.locale('es');
+import ButtonCycle from '../../components/ButtonCycle/ButtonCycle';
+import apiCall from '../../utils/API/api';
+import './Principal.css';
 
 const Principal = () => {
-  const [events, setEvents] = useState([]);
-  const userDays = 5; // Este valor se puede pasar como prop o obtener de un formulario
+  const [status, setStatus] = useState('start');
+  const [startDate, setStartDate] = useState(new Date().toISOString());
 
-  const handleAddEvent = () => {
-    const start = dayjs().toDate();
-    const end = dayjs().add(userDays, 'day').toDate();
-    const newEvent = {
-      start,
-      end,
-      title: 'Menstruación',
-      allDay: true,
-      data: {}
-    };
-    setEvents([...events, newEvent]);
+  const handleButtonClick = async () => {
+    try {
+      let endpoint = '';
+      const token = localStorage.getItem('token');
+      let body = {};
+
+      if (status === 'start') {
+        endpoint = '/cycle/start';
+        
+      const date = new Date();
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      const formattedDate = `${day}/${month}/${year}`;
+      
+      body = { startDate: formattedDate };
+      console.log('Enviando cuerpo:', JSON.stringify(body));
+      } else {
+        endpoint = '/cycle/end';
+      }
+
+      const response = await apiCall({
+        method: 'POST',
+        endpoint,
+        body: Object.keys(body).length ? JSON.stringify(body) : null,
+        token: token,
+      });
+      console.log('Respuesta del servidor:', response);
+      setStatus(status === 'start' ? 'end' : 'start');
+    } catch (error) {
+      console.error('Error al actualizar el ciclo:', error);
+    }
   };
 
   return (
-    <>
-      <button onClick={handleAddEvent}>
-    Añadir Evento
-    </button>
-      <Calendar events={events} />
-    </>
+    <div id="principal">
+      <ButtonCycle status={status} onClick={handleButtonClick} />
+    </div>
   );
-}
+};
 
 export default Principal;

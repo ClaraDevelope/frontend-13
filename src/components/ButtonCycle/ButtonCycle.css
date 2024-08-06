@@ -1,0 +1,25 @@
+.cycle-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cycle-button.start {
+  background-color: #ff6f61; /* Color para 'Comienzo de la menstruación' */
+}
+
+.cycle-button.end {
+  background-color: #4caf50; /* Color para 'Fin de la menstruación' */
+}
+
+/* Estilos específicos para móvil */
+@media (max-width: 768px) {
+  .cycle-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

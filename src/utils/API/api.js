@@ -10,8 +10,11 @@ const apiCall = async ({ method, endpoint, body = null, isFormData = false, toke
   
   if (!isFormData) {
     headers['Content-Type'] = 'application/json';
+    console.log('Cuerpo antes de stringify:', body); // Debug: Cuerpo antes de stringify
     body = body ? JSON.stringify(body) : null;
+    console.log('Cuerpo después de stringify:', body); // Debug: Cuerpo después de stringify
   }
+
 
   const requestOptions = {
     method: method,
@@ -19,10 +22,8 @@ const apiCall = async ({ method, endpoint, body = null, isFormData = false, toke
     body: body
   };
 
-  
   try {
     const response = await fetch(apiUrl, requestOptions);
-
     if (!response.ok) {
       throw new Error('Error al enviar los datos');
     }

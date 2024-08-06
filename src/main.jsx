@@ -10,6 +10,7 @@ import Header from './components/Header/Header.jsx'
 import AuthProvider from './providers/AuthProvider.jsx'
 import Home from './pages/Home/Home.jsx'
 import Principal from './pages/Principal/Principal.jsx'
+import CalendarPage from './pages/CalendarPage/CalendarPage.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider>
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/Register' element={<Register/>} />
             <Route path='/Login' element={<Login/>} />
             <Route path='/Principal' element={<Principal/>} />
+            <Route path='/Calendar' element={<CalendarPage/>} />
           </Routes>
        </BrowserRouter>
      </React.StrictMode>
