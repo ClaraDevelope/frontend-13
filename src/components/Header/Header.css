@@ -6,6 +6,10 @@ header {
   align-items: center;
   flex-wrap: wrap;
   padding: 30px;
+  position: absolute;
+  z-index: 999;
+  width: 100%;
+  /* background-color: var(--color-white); */
 }
 .title {
   /* margin-left: 20px; */
@@ -39,7 +43,7 @@ header > ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 20px;
 }
 .nav-link {
   color: var(--color-dark-blue);

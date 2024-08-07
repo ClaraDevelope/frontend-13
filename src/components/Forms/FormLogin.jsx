@@ -13,9 +13,10 @@ import {
   AlertIcon,
   Link
 } from '@chakra-ui/react';
-import apiCall from '../../utils/API/api';
+// import apiCall from '../../utils/API/api';
 import { useAuth } from '../../providers/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import useApiCall from '../../hooks/useApiCall/useApiCall';
 
 const FormLogin = () => {
   const methods = useForm();
@@ -23,6 +24,7 @@ const FormLogin = () => {
   const [errorMessage, setErrorMessage] = React.useState('');
   const { login } = useAuth(); 
   const navigate = useNavigate();
+  const apiCall = useApiCall()
 
   const onSubmit = async (data) => {
     try {
@@ -44,7 +46,7 @@ const FormLogin = () => {
   };
 
   return (
-    <Container maxW="md"mt={8} p={6} borderWidth={1}  borderRadius="lg"  boxShadow="lg"  bg="var(--color-white)">
+    <Container maxW="md" p={6} borderWidth={1}  borderRadius="lg"  boxShadow="lg"  bg="var(--color-white)" position="relative" zIndex="999">
       <Heading as="h2" size="xl" textAlign="center" mb={4}>Iniciar sesión</Heading>
       <Text textAlign="center" mb={6}>Introduce tus datos para acceder a tu cuenta.</Text>
       {errorMessage && (

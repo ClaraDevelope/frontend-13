@@ -10,9 +10,9 @@ const apiCall = async ({ method, endpoint, body = null, isFormData = false, toke
   
   if (!isFormData) {
     headers['Content-Type'] = 'application/json';
-    console.log('Cuerpo antes de stringify:', body); // Debug: Cuerpo antes de stringify
+    console.log('Cuerpo antes de stringify:', body); 
     body = body ? JSON.stringify(body) : null;
-    console.log('Cuerpo después de stringify:', body); // Debug: Cuerpo después de stringify
+    console.log('Cuerpo después de stringify:', body);
   }
 
 
@@ -38,30 +38,3 @@ const apiCall = async ({ method, endpoint, body = null, isFormData = false, toke
 };
 
 export default apiCall;
-
-
-// const url = "http://localhost:3000/api/v1";
-
-// export const API = async ({
-//   endpoint,
-//   method = "GET",
-//   body,
-//   isJSON = true,
-//   token = null
-// }) => {
-//   const headers = {
-//     "Authorization": Bearer ${token}
-//   };
-
-//   isJSON ? (headers["Content-Type"] = "application/json") : null;
-
-//   const res = await fetch(url + endpoint, {
-//     body: isJSON ? JSON.stringify(body) : body,
-//     method,
-//     headers,
-//   });
-
-//   const response = await res.json();
-//   return response;
-// };
-

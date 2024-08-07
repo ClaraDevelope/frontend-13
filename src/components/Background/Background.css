@@ -1,0 +1,30 @@
+.background-wrapper {
+  /* background-image: url('/white-pink.webp'); */
+  background-image: url('/flor-bb.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  min-height: 100%;
+  z-index: 0;
+  position: absolute;
+  /* opacity: 90%; */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px;
+}
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.564);
+  z-index: 1;
+}
+
+.background-wrapper > *:not(.background-overlay) {
+  position: relative;
+  z-index: 2;
+}

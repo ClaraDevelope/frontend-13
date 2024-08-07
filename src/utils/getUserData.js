@@ -1,4 +1,4 @@
-import apiCall from './API/api'; // Ajusta la ruta según tu estructura
+import apiCall from './API/api'; 
 
 export const getUserData = async (userId, token) => {
   try {

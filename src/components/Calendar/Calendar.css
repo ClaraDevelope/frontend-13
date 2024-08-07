@@ -14,7 +14,7 @@
   padding: 10px;
 }
 .rbc-toolbar {
-  gap: 36px;
+  gap: 15px;
 }
 .rbc-toolbar-label {
   text-transform: capitalize;
@@ -26,4 +26,11 @@
 }
 .rbc-event {
   background-color: var(--color-dark-blue);
+}
+.rbc-calendar {
+  background-color: var(--color-white);
+  padding: 20px;
+}
+.rbc-row-bg {
+  cursor: pointer;
 }
