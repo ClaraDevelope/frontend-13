@@ -10,9 +10,9 @@ const apiCall = async ({ method, endpoint, body = null, isFormData = false, toke
   
   if (!isFormData) {
     headers['Content-Type'] = 'application/json';
-    console.log('Cuerpo antes de stringify:', body); 
+    // console.log('Cuerpo antes de stringify:', body); 
     body = body ? JSON.stringify(body) : null;
-    console.log('Cuerpo después de stringify:', body);
+    // console.log('Cuerpo después de stringify:', body);
   }
 
 

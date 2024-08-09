@@ -34,27 +34,23 @@ const FormRegister = () => {
     formData.append('email', data.email);
     formData.append('password', data.password);
     if (data.img && data.img.length > 0) {
-      formData.append('img', data.img[0]); // Aquí no necesitas .file
+      formData.append('img', data.img[0]); 
     } else {
       console.log('No se seleccionó ningún archivo');
     }
     formData.append('birthDate', data.birthDate);
     formData.append('averageCycleLength', data.averageCycleLength);
     formData.append('averagePeriodLength', data.averagePeriodLength);
-
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
+  
     try {
-      const response = await apiCall({
+      const registerResponse = await apiCall({
         method: 'POST',
         endpoint: '/auth/register',
         body: formData,
         isFormData: true
       });
-      console.log('Respuesta de la API:', response);
-
+      // console.log('Respuesta de la API:', registerResponse);
+  
       const loginResponse = await apiCall({
         method: 'POST',
         endpoint: '/auth/login',
@@ -63,13 +59,11 @@ const FormRegister = () => {
           password: data.password
         }
       });
-      console.log('Respuesta del login:', loginResponse);
-
-      localStorage.setItem('token', loginResponse.token);
-      localStorage.setItem('user', JSON.stringify(loginResponse.user));
-      login(loginResponse.token);
+      // console.log('Respuesta del login:', loginResponse);
+  
+      login(loginResponse.token, loginResponse.user);
       navigate('/Principal');
-
+  
     } catch (error) {
       if (error.response && error.response.data) {
         setErrorMessage(error.response.data.message || 'Error al enviar la solicitud');

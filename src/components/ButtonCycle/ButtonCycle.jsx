@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import './ButtonCycle.css';
 
 const ButtonCycle = ({ status, onClick }) => {
-
-  const buttonText = status === 'start' ? 'Comienzo de la menstruación' : 'Fin de la menstruación';
+  const buttonText = status === 'start' ? 'Inicio de la menstruación' : 'Fin de la menstruación';
 
   return (
     <button 
@@ -15,9 +14,11 @@ const ButtonCycle = ({ status, onClick }) => {
     </button>
   );
 };
+
 ButtonCycle.propTypes = {
   status: PropTypes.oneOf(['start', 'end']).isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
 export default ButtonCycle;
+

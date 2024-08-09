@@ -17,7 +17,7 @@ import Loading from './components/Loading/Loading.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <AuthProvider>
+<AuthProvider>
   <ChakraProvider>
   <LoadingProvider>
      <React.StrictMode>
@@ -39,5 +39,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
      </React.StrictMode>
   </LoadingProvider>
   </ChakraProvider>
-  </AuthProvider>
+</AuthProvider>
 )

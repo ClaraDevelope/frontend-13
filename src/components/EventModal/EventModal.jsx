@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button, Select, Input, Modal, ModalOverlay, ModalContent,
   ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
@@ -6,9 +6,36 @@ import {
 } from '@chakra-ui/react';
 import useModalReducer, { ACTIONS } from '../../hooks/useModalReducer/useModalReducer';
 import dayjs from 'dayjs';
+import useApiCall from '../../hooks/useApiCall/useApiCall';
+import { useAuth } from '../../providers/AuthProvider';
+
 
 const EventModal = ({ isOpen, onClose, selectedDate, handleAddEvent }) => {
   const [state, dispatch] = useModalReducer();
+  const [entryValues, setEntryValues] = useState({
+    event: [],
+    mood: [],
+    symptom: [],
+    personalTag: []
+  });
+  const callApi = useApiCall();
+  const {user} = useAuth()
+  const token = user?.token; 
+
+  useEffect(() => {
+    const fetchEntryValues = async () => {
+      try {
+        const response = await callApi({ method: 'GET', endpoint: '/calendary/entry', token });
+        setEntryValues(response);
+      } catch (error) {
+        console.error('Error fetching entry values', error);
+      }
+    };
+
+    if (isOpen) {
+      fetchEntryValues();
+    }
+  }, [isOpen]);
 
   const handleEntryTypeChange = (e) => {
     dispatch({ type: ACTIONS.SET_ENTRY_TYPE, payload: e.target.value });
@@ -20,58 +47,26 @@ const EventModal = ({ isOpen, onClose, selectedDate, handleAddEvent }) => {
 
   const handleSubmit = () => {
     const formattedDate = dayjs(selectedDate).format('DD/MM/YYYY');
-    console.log("Submitting", { entryType: state.entryType, formattedDate, value: state.value });
-    handleAddEvent(state.entryType, state.value); // Solo pasa el value sin formatear
+    handleAddEvent(state.entryType, state.value, formattedDate);
     onClose();
   };
-
 
   const renderValueInput = () => {
     switch (state.entryType) {
       case 'event':
-        return (
-          <Select
-            placeholder="Selecciona el evento"
-            onChange={handleValueChange}
-            value={state.value}
-            mb={4}
-          >
-            <option value="deporte">Deporte</option>
-            <option value="relaciones">Relaciones</option>
-            <option value="hormonaciones">Hormonaciones</option>
-            <option value="viaje">Viaje</option>
-            <option value="enfermedad">Enfermedad</option>
-            <option value="menstruacion">Menstruación</option>
-            <option value="fiesta">Fiesta</option>
-            <option value="cumpleaños">Cumpleaños</option>
-            <option value="medico">Médico</option>
-          </Select>
-        );
       case 'mood':
         return (
           <Select
-            placeholder="Selecciona el estado de ánimo"
+            placeholder={`Selecciona el ${state.entryType}`}
             onChange={handleValueChange}
             value={state.value}
             mb={4}
           >
-            <option value="enojada">Enojada</option>
-            <option value="ansiosa">Ansiosa</option>
-            <option value="calmada">Calmada</option>
-            <option value="deprimida">Deprimida</option>
-            <option value="con energía">Con energía</option>
-            <option value="fatigada">Fatigada</option>
-            <option value="feliz">Feliz</option>
-            <option value="hambrienta">Hambrienta</option>
-            <option value="frustrada">Frustrada</option>
-            <option value="voluble">Voluble</option>
-            <option value="nerviosa">Nerviosa</option>
-            <option value="sensible">Sensible</option>
-            <option value="cansada">Cansada</option>
-            <option value="estresada">Estresada</option>
-            <option value="irritable">Irritable</option>
-            <option value="dormida">Dormida</option>
-            <option value="atrevida">Atrevida</option>
+            {entryValues[state.entryType].map((value, index) => (
+              <option key={index} value={value}>
+                {value}
+              </option>
+            ))}
           </Select>
         );
       case 'symptom':

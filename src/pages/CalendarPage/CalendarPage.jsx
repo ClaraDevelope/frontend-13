@@ -1,48 +1,68 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import dayjs from 'dayjs';
-import "dayjs/locale/es";
 import Calendar from '../../components/Calendar/Calendar';
-import { useDisclosure } from '@chakra-ui/react';
-import useApiCall from '../../hooks/useApiCall/useApiCall';
-import './CalendarPage.css';
-import EventModal from '../../components/EventModal/EventModal';
 import useCurrentCycle from '../../hooks/useCurrentCycle/useCurrentCycle';
 import { fetchEventsData } from '../../utils/eventsData';
-import { fetchCurrentCycleData } from '../../utils/currentCycle';
-
-
-dayjs.locale('es');
+import { useDisclosure } from '@chakra-ui/react';
+import apiCall from '../../utils/API/api';
+import { useAuth } from '../../providers/AuthProvider'; // Usar contexto para obtener token
+import EventModal from '../../components/EventModal/EventModal';
 
 const CalendarPage = () => {
   const [events, setEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventType, setEventType] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const apiCall = useApiCall();
-  const token = localStorage.getItem('token');
-  const cycleId = JSON.parse(localStorage.getItem('user'))?.menstrualCycle || null;
+  const { user } = useAuth(); 
+  const cycleId = user?.menstrualCycle; 
+  const token = user?.token; 
 
   const [currentCycle, fetchCurrentCycle] = useCurrentCycle(cycleId, setEvents);
 
-  const fetchEvents = useCallback(async () => {
-    try {
-      const response = await fetchEventsData(apiCall, token);
-      setEvents(response);
-    } catch (error) {
-      console.error('Error fetching events:', error);
-    }
-  }, []);
-
   useEffect(() => {
-    fetchEvents();
     if (cycleId) {
       fetchCurrentCycle();
     }
-  }, []);
+  }, [cycleId, fetchCurrentCycle]);
+
+  const fetchEvents = useCallback(async () => {
+    if (!token) {
+      console.error('Token is missing.');
+      return;
+    }
+
+    try {
+      const response = await fetchEventsData(apiCall, token);
+      // console.log("Eventos recibidos del backend:", response);
+
+      setEvents(prevEvents => {
+        const existingEventKeys = new Set(prevEvents.map(event => `${event.start}-${event.end}`));
+        const uniqueEvents = response.filter(event => !existingEventKeys.has(`${event.start}-${event.end}`));
+        
+        // console.log("Eventos después de filtrar duplicados:", uniqueEvents);
+
+        return [...prevEvents, ...uniqueEvents];
+      });
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
 
   const handleAddEvent = async (entryType, value) => {
-    // Convierte selectedDate a formato DD/MM/YYYY
-    const formattedDate = dayjs(selectedDate).format('DD/MM/YYYY');
+
+    const date = new Date(selectedDate);
+  
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+  
+    const formattedDate = `${day}/${month}/${year}`;
+  
+    console.log(formattedDate);
   
     const newEvent = {
       date: formattedDate,
@@ -51,32 +71,47 @@ const CalendarPage = () => {
     };
   
     try {
+      if (!token) {
+        console.error('Token is missing.');
+        return;
+      }
+  
       await apiCall({
         method: 'POST',
-        endpoint: '/calendary/entry',
+        endpoint: '/calendary/entry/add',
         body: newEvent,
         token
       });
   
-      setEvents(prevEvents => [
-        ...prevEvents,
-        {
+      setEvents(prevEvents => {
+        const allEvents = [...prevEvents, {
           ...newEvent,
-          start: new Date(newEvent.date),
-          end: new Date(newEvent.date),
+          start: new Date(newEvent.date.split('/').reverse().join('-')), // Convierte DD/MM/YYYY a YYYY-MM-DD para Date
+          end: new Date(newEvent.date.split('/').reverse().join('-')), // Convierte DD/MM/YYYY a YYYY-MM-DD para Date
           title: newEvent.value
-        }
-      ]);
+        }];
+        const uniqueEvents = allEvents.reduce((acc, event) => {
+          const key = `${event.start}-${event.end}`;
+          if (!acc.seen[key]) {
+            acc.seen[key] = true;
+            acc.events.push(event);
+          }
+          return acc;
+        }, { seen: {}, events: [] }).events;
+  
+        return uniqueEvents;
+      });
       onClose();
     } catch (error) {
       console.error('Error adding event:', error);
     }
   };
+  
 
   const handleSelectSlot = ({ start }) => {
     if (eventType === 'menstruacion') {
       const startDate = new Date(start);
-      if (currentCycle && startDate >= new Date(currentCycle.start) && startDate <= new Date(currentCycle.end)) {
+      if (currentCycle && currentCycle.start && startDate >= new Date(currentCycle.start) && (!currentCycle.end || startDate <= new Date(currentCycle.end))) {
         alert('No se puede iniciar una nueva menstruación durante una menstruación en curso.');
         return;
       }
@@ -86,9 +121,13 @@ const CalendarPage = () => {
     onOpen();
   };
 
+  // useEffect(() => {
+  //   console.log("Eventos pasados al calendario:", events);
+  // }, [events]);
+
   return (
     <>
-      <Calendar events={events} onSelectSlot={handleSelectSlot} selectable />
+      <Calendar events={events} currentCycle={currentCycle} onSelectSlot={handleSelectSlot} selectable />
       <EventModal 
         isOpen={isOpen} 
         onClose={onClose} 
@@ -102,3 +141,7 @@ const CalendarPage = () => {
 };
 
 export default CalendarPage;
+
+
+
+

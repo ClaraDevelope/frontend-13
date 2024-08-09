@@ -26,19 +26,32 @@ const FormLogin = () => {
   const navigate = useNavigate();
   const apiCall = useApiCall()
 
+
   const onSubmit = async (data) => {
+    setErrorMessage(''); // Limpiar mensaje de error antes de la nueva solicitud
+
     try {
       const response = await apiCall({
         method: 'POST',
         endpoint: '/auth/login',
         body: data
       });
+
       console.log('Respuesta del login:', response);
 
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user)); 
-      login(response.token); 
-      navigate('/Principal')
+      if (response.token && response.user) {
+        // Guardar en localStorage
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+
+        // Llamar a login() del contexto
+        login(response.token, response.user);
+
+        // Redirigir a la página principal
+        navigate('/Principal');
+      } else {
+        throw new Error('Token o datos del usuario no recibidos en la respuesta.');
+      }
     } catch (error) {
       console.error('Error al enviar los datos:', error);
       setErrorMessage('Error al iniciar sesión. Por favor, verifica tus datos.');

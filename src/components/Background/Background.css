@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 40px;
+  padding-top: 5rem;
 }
 .background-overlay {
   position: absolute;
@@ -27,4 +27,8 @@
 .background-wrapper > *:not(.background-overlay) {
   position: relative;
   z-index: 2;
+}
+.background-content {
+  width: 100%;
+  /* position: relative; */
 }

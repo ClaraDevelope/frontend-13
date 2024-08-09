@@ -8,7 +8,6 @@ const useApiCall = () => {
   const callApi = async (options) => {
     try {
       showLoading(); 
-      // await new Promise(resolve => setTimeout(resolve, 4000));
       const result = await apiCall(options);
       return result;
     } catch (error) {

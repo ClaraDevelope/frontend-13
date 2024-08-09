@@ -1,3 +1,23 @@
+.responsive-calendar {
+  height: 550px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .responsive-calendar {
+    height: 550px;
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-calendar {
+    height: 400px;
+    max-width: 100%;
+  }
+}
+
 /* .rbc-event {
   background-color: rgba(174, 0, 255, 0.532);
   height: 10px;
@@ -10,6 +30,10 @@
 /* .rbc-btn-group > button {
 
 } */
+
+.rbc-calendar {
+  width: 100%;
+}
 .rbc-header {
   padding: 10px;
 }

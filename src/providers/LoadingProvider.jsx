@@ -20,7 +20,7 @@ const LoadingProvider = ({children}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const showLoading = () => {
-    console.log('Showing loading...');
+    // console.log('Showing loading...');
     setIsLoading(true);
   };
   const hideLoading = () => setIsLoading(false);
