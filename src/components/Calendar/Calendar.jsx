@@ -1,16 +1,16 @@
 import React from 'react';
 import { Calendar as BigCalendar, dayjsLocalizer } from 'react-big-calendar';
 import dayjs from 'dayjs';
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import 'dayjs/locale/es';  // Asegúrate de importar el idioma español
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calendar.css';
 import CustomToolbar from '../CustomToolBar/CustomToolBar';
 
 dayjs.locale('es');
+
 const localizer = dayjsLocalizer(dayjs);
 
 const Calendar = ({ events, currentCycle, onSelectSlot, selectable }) => {
-
-
   const formattedEvents = events.map(event => {
     const startDate = dayjs(event.start).toDate();
     const endDate = dayjs(event.end).toDate();
@@ -36,7 +36,6 @@ const Calendar = ({ events, currentCycle, onSelectSlot, selectable }) => {
     }
   ] : [];
 
-
   const allEvents = [
     ...formattedEvents,
     ...(!formattedEvents.some(event => event.title === 'Menstruación') ? cycleEvents : [])
@@ -50,8 +49,6 @@ const Calendar = ({ events, currentCycle, onSelectSlot, selectable }) => {
       ])
     ).values()
   );
-
-  // console.log('Eventos únicos:', JSON.stringify(uniqueEvents));
 
   return (
     <div className="responsive-calendar">
@@ -75,32 +72,3 @@ const Calendar = ({ events, currentCycle, onSelectSlot, selectable }) => {
 
 export default Calendar;
 
-
-
-
-
-// import React from 'react';
-// import { Calendar as BigCalendar, dayjsLocalizer } from 'react-big-calendar';
-// import "react-big-calendar/lib/css/react-big-calendar.css";
-// import dayjs from 'dayjs';
-// import "dayjs/locale/es";
-// import './Calendar.css'
-
-// dayjs.locale('es');
-// const localizer = dayjsLocalizer(dayjs);
-
-// const Calendar = ({ events }) => (
-//   <div style={{ height: "550px", maxWidth: "700px", display: "flex", justifyContent: "center", alignItems: "center", margin: 'auto',}}>
-//     <BigCalendar 
-//       localizer={localizer}  
-//       events={events} 
-//       views={['month', 'week', 'day', 'agenda']} 
-//       // 
-//       defaultView={'month'} 
-//       style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-
-//     />
-//   </div>
-// );
-
-// export default Calendar;

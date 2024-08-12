@@ -57,7 +57,7 @@ const EventModal = ({ isOpen, onClose, selectedDate, handleAddEvent }) => {
       case 'mood':
         return (
           <Select
-            placeholder={`Selecciona el ${state.entryType}`}
+            placeholder={`Selecciona una opción`}
             onChange={handleValueChange}
             value={state.value}
             mb={4}
@@ -91,7 +91,7 @@ const EventModal = ({ isOpen, onClose, selectedDate, handleAddEvent }) => {
         <ModalHeader textAlign="center" fontSize="lg" fontWeight="bold" position="relative">
           Añadir Entrada
         </ModalHeader>
-        <ModalCloseButton />
+        <ModalCloseButton onClose={onClose}/>
         <ModalBody>
           <FormControl>
             <FormLabel>Tipo de entrada</FormLabel>

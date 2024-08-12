@@ -5,32 +5,40 @@ import useApiCall from '../../hooks/useApiCall/useApiCall';
 import ModalDateConfirm from '../../components/ModalDateConfirm/ModalDateConfirm';
 import { useDisclosure } from '@chakra-ui/react';
 import { useAuth } from '../../providers/AuthProvider';
+import useCurrentCycle from '../../hooks/useCurrentCycle/useCurrentCycle';
 
 const Principal = () => {
-  const [status, setStatus] = useState('start'); // Estado inicial predeterminado
+  const [status, setStatus] = useState('start');
   const [isLoading, setIsLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const apiCall = useApiCall();
   const { user } = useAuth();
-  const token = user?.token;
   const cycleId = user?.menstrualCycle;
 
+  const [currentCycle, fetchCurrentCycle] = useCurrentCycle(cycleId, () => {});
+  const apiCall = useApiCall();
+
   useEffect(() => {
-    // Intentar obtener el estado guardado desde localStorage
-    const savedStatus = localStorage.getItem('cycleStatus');
-
-    if (savedStatus) {
-      setStatus(savedStatus);
-    } else {
-      // Si no hay estado guardado, inicializar el estado a 'start'
-      setStatus('start');
-    }
-
-    setIsLoading(false);
+    const loadCycleData = async () => {
+      await fetchCurrentCycle();
+      setIsLoading(false);
+    };
+    
+    loadCycleData();
   }, []);
 
+  useEffect(() => {
+    if (currentCycle) {
+      if (currentCycle?.menstrualCycle?.history?.length === 0) {
+        setStatus('start');
+      } else {
+        const savedStatus = localStorage.getItem('cycleStatus');
+        setStatus(savedStatus || 'start');
+      }
+    }
+  }, [currentCycle]);
+
   const handleButtonClick = async (modalDate) => {
-    if (!token || !cycleId) {
+    if (!user || !cycleId) {
       console.error('Token or Cycle ID is missing during button click.');
       return;
     }
@@ -43,10 +51,10 @@ const Principal = () => {
         method: 'POST',
         endpoint,
         body,
-        token,
+        token: user.token,
       });
 
-      // Alternamos el estado y actualizamos localStorage
+      // Cambia el estado entre 'start' y 'end'
       const newStatus = status === 'start' ? 'end' : 'start';
       setStatus(newStatus);
       localStorage.setItem('cycleStatus', newStatus); // Guardar en localStorage

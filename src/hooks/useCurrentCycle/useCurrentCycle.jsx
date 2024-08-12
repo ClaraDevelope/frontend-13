@@ -3,56 +3,66 @@ import { fetchCurrentCycleData } from '../../utils/currentCycle';
 import apiCall from '../../utils/API/api';
 import { useAuth } from '../../providers/AuthProvider';
 
-
 const useCurrentCycle = (cycleId, setEvents) => {
   const [currentCycle, setCurrentCycle] = useState(null);
   const { user } = useAuth();
   const token = user?.token;
-  // console.log(token);
-  
+
+  const addMenstrualEvent = (start, end, eventsArray) => {
+    if (start && end) {
+      eventsArray.push({
+        start: start.toISOString().split('T')[0],
+        end: end.toISOString().split('T')[0],
+        title: 'Menstruación',
+        allDay: true
+      });
+    }
+  };
+
   const fetchCurrentCycle = useCallback(async () => {
     if (!cycleId) return;
 
     try {
-      const response = await fetchCurrentCycleData(apiCall, cycleId, token);
-      // console.log('Datos del ciclo menstrual recibidos del backend:', response);
+
+      const response = await fetchCurrentCycleData(apiCall, cycleId, token, {});
+      console.log('Datos del ciclo menstrual recibidos del backend:', response);
 
       setCurrentCycle(response);
 
       const menstrualEvents = [];
-      const start = response?.menstrualCycle?.startDate ? new Date(response.menstrualCycle.startDate) : null;
-      const end = response?.menstrualCycle?.endDate ? new Date(response.menstrualCycle.endDate) : null;
+      const currentCycle = response?.currentCycle;
+      const nextCycles = response?.nextCycles || [];
 
-      if (start && end) {
-        menstrualEvents.push({
-          start: start.toISOString().split('T')[0],
-          end: end.toISOString().split('T')[0],
-          title: 'Menstruación',
-          allDay: true
-        });
-
-        // console.log('Eventos de menstruación:', menstrualEvents);
-
-        setEvents(prevEvents => {
-          const existingMenstrualEvents = prevEvents.filter(event => event.title === 'Menstruación');
-          const filteredMenstrualEvents = menstrualEvents.filter(newEvent => 
-            !existingMenstrualEvents.some(existingEvent => 
-              existingEvent.start === newEvent.start && 
-              existingEvent.end === newEvent.end
-            )
-          );
-          return [...prevEvents, ...filteredMenstrualEvents];
-        });
+      if (currentCycle) {
+        addMenstrualEvent(new Date(currentCycle.start), new Date(currentCycle.end), menstrualEvents);
       }
+
+      nextCycles.forEach(cycle => {
+        addMenstrualEvent(new Date(cycle.start), new Date(cycle.end), menstrualEvents);
+      });
+
+      setEvents(prevEvents => {
+        const existingMenstrualEvents = prevEvents.filter(event => 
+          event.title === 'Menstruación'
+        );
+        const filteredMenstrualEvents = menstrualEvents.filter(newEvent => 
+          !existingMenstrualEvents.some(existingEvent => 
+            existingEvent.start === newEvent.start && 
+            existingEvent.end === newEvent.end
+          )
+        );
+        return [...prevEvents, ...filteredMenstrualEvents];
+      });
     } catch (error) {
       console.error('Error fetching current menstrual cycle:', error);
     }
-  }, [cycleId, setEvents]);
+  }, [cycleId, setEvents, token]);
 
   return [currentCycle, fetchCurrentCycle];
 };
 
 export default useCurrentCycle;
+
 
 
 
