@@ -28,7 +28,7 @@ const FormLogin = () => {
 
 
   const onSubmit = async (data) => {
-    setErrorMessage(''); // Limpiar mensaje de error antes de la nueva solicitud
+    setErrorMessage(''); 
 
     try {
       const response = await apiCall({
@@ -40,14 +40,13 @@ const FormLogin = () => {
       console.log('Respuesta del login:', response);
 
       if (response.token && response.user) {
-        // Guardar en localStorage
+
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
 
-        // Llamar a login() del contexto
         login(response.token, response.user);
 
-        // Redirigir a la página principal
+
         navigate('/Principal');
       } else {
         throw new Error('Token o datos del usuario no recibidos en la respuesta.');
@@ -59,7 +58,7 @@ const FormLogin = () => {
   };
 
   return (
-    <Container maxW="md" p={6} borderWidth={1}  borderRadius="lg"  boxShadow="lg"  bg="var(--color-white)" position="relative" zIndex="999">
+    <Container maxW="md" p={6} mt={16} borderWidth={1}  borderRadius="lg"  boxShadow="lg"  bg="var(--color-white)" position="relative" zIndex="999">
       <Heading as="h2" size="xl" textAlign="center" mb={4}>Iniciar sesión</Heading>
       <Text textAlign="center" mb={6}>Introduce tus datos para acceder a tu cuenta.</Text>
       {errorMessage && (

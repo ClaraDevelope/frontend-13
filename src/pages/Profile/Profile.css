@@ -1,0 +1,49 @@
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  gap: 0;
+  width: 60%;
+  max-width: 1200px;
+  margin: 50px auto 50px auto;
+}
+
+.profile-grid > * {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-grid > :nth-child(1) {
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.profile-grid > :nth-child(2) {
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.profile-grid > :nth-child(3) {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-top: 120px;
+  }
+  .profile-grid > :nth-child(1) {
+    height: 250px;
+  }
+  .profile-grid > :nth-child(1),
+  .profile-grid > :nth-child(2) {
+    border-radius: 10px;
+  }
+
+  .profile-grid > :nth-child(3) {
+    grid-column: span 1;
+  }
+}

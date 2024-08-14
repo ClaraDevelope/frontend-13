@@ -4,12 +4,14 @@ import './Principal.css';
 import useApiCall from '../../hooks/useApiCall/useApiCall';
 import ModalDateConfirm from '../../components/ModalDateConfirm/ModalDateConfirm';
 import { useDisclosure } from '@chakra-ui/react';
+import { Box, Card, CardBody, CardHeader, Text, Button } from '@chakra-ui/react'; 
 import { useAuth } from '../../providers/AuthProvider';
 import useCurrentCycle from '../../hooks/useCurrentCycle/useCurrentCycle';
+import MenstrualData from '../../components/MenstrualData/MenstrualData';
+import Post from '../../components/Post/Post';
 
 const Principal = () => {
   const [status, setStatus] = useState('start');
-  const [isLoading, setIsLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
   const cycleId = user?.menstrualCycle;
@@ -19,8 +21,7 @@ const Principal = () => {
 
   useEffect(() => {
     const loadCycleData = async () => {
-      await fetchCurrentCycle();
-      setIsLoading(false);
+      await fetchCurrentCycle(); 
     };
     
     loadCycleData();
@@ -54,37 +55,41 @@ const Principal = () => {
         token: user.token,
       });
 
-      // Cambia el estado entre 'start' y 'end'
       const newStatus = status === 'start' ? 'end' : 'start';
       setStatus(newStatus);
-      localStorage.setItem('cycleStatus', newStatus); // Guardar en localStorage
+      localStorage.setItem('cycleStatus', newStatus); 
 
     } catch (error) {
       console.error('Error updating cycle:', error);
     }
   };
 
-  if (isLoading) {
-    return <div>Cargando...</div>;
-  }
 
   return (
-    <div id="principal">
-      <ButtonCycle
-        status={status || 'start'}
-        onClick={onOpen}
-      />
+    <Box id="principal" p={4} display="flex" flexDirection="column">
+      <Card maxW="md" mb={4} p={6} borderRadius="md" boxShadow="md">
+        <CardBody display="flex"
+        flexDirection="column" justifyContent="center" alignItems="center">
+          <MenstrualData status={status} />
+          <ButtonCycle
+          status={status || 'start'}
+          onClick={onOpen}
+           />
+        </CardBody>
+      </Card>
+      <Post/>
       <ModalDateConfirm
         isOpen={isOpen}
         onClose={onClose}
         status={status}
         onConfirm={(modalDate) => handleButtonClick(modalDate)}
       />
-    </div>
+    </Box>
   );
 };
 
 export default Principal;
+
 
 
 
