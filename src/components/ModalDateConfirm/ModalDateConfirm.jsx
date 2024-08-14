@@ -11,8 +11,8 @@ const ModalDateConfirm = ({ isOpen, onClose, onConfirm, status }) => {
 
   const handleConfirm = () => {
     const formattedDate = formatDate(new Date(modalDate), 'DD/MM/YYYY'); 
-    onConfirm(formattedDate); // Enviar la fecha confirmada al manejador
-    onClose(); // Cerrar el modal
+    onConfirm(formattedDate); 
+    onClose(); 
   };
 
   return (

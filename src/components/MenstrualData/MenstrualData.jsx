@@ -11,19 +11,24 @@ const MenstrualData = ({ status }) => {
 
   useEffect(() => {
     const loadCycleData = async () => {
-      await fetchCurrentCycle();
+      if (cycleId) {
+        await fetchCurrentCycle();
+      } else {
+        setMessage('No se puede cargar la información del ciclo menstrual.');
+      }
     };
 
     loadCycleData();
-  }, []); 
+  }, [cycleId]); 
 
   useEffect(() => {
-    if (currentCycle) {
-      const today = new Date();   
+    if (currentCycle && currentCycle.currentCycle) {
+      const today = new Date();
       const startDate = new Date(currentCycle.currentCycle.start);
+
       if (status === 'end') {
-        const diffTime = today - startDate;  
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; 
+        const diffTime = today - startDate;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
         setMessage(`Estás en el día ${Math.max(0, diffDays)} de período.`);
 
       } else if (status === 'start') {
@@ -43,13 +48,16 @@ const MenstrualData = ({ status }) => {
       } else {
         setMessage('Estado del ciclo no reconocido.');
       }
+    } else {
+      setMessage('No hay datos suficientes para calcular.');
     }
   }, [currentCycle, status]);
 
-  return <Heading as='h3' size='lg' p={6} textAlign="center">
-    {message}
-    </Heading>;
+  return currentCycle && currentCycle.currentCycle ? (
+    <Heading as='h3' size='lg' p={6} textAlign="center">
+      {message}
+    </Heading>
+  ) : null;
 };
 
 export default MenstrualData;
-

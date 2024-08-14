@@ -19,7 +19,7 @@ const MenstrualProfile = ({ user }) => {
       display="flex"
       flexDirection="column"
       justifyContent="center"
-      alignItems="center"  // Alinea al centro en el eje transversal
+      alignItems="center"  
       boxShadow="lg"
       p={6}
       bg={useColorModeValue('white', 'gray.800')}

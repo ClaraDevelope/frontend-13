@@ -77,7 +77,7 @@ const Principal = () => {
            />
         </CardBody>
       </Card>
-      <Post/>
+      {/* <Post/> */}
       <ModalDateConfirm
         isOpen={isOpen}
         onClose={onClose}
