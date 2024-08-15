@@ -1,14 +1,17 @@
-import React from 'react';
-import { Box, Text, Heading, Stack, Input, Button, useColorModeValue, FormControl, FormLabel } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { 
+  Box, Text, Heading, Stack, Input, Button, 
+  useColorModeValue, FormControl, FormLabel, Alert, AlertIcon, AlertTitle 
+} from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import useApiCall from '../../hooks/useApiCall/useApiCall'; 
-import { useAuth } from '../../providers/AuthProvider';
 
 const Personal = ({ user }) => {
-  const { token } = useAuth(); 
+  const [successMessage, setSuccessMessage] = useState('');
+  const token = user.token;
   const callApi = useApiCall();
 
-  const { register, handleSubmit, getValues, setError, clearErrors, formState: { errors } } = useForm();
+  const { register, handleSubmit, setError, clearErrors, reset, formState: { errors } } = useForm();
   
   const onSubmit = async (data) => {
     const { newPassword, confirmPassword } = data;
@@ -33,8 +36,9 @@ const Personal = ({ user }) => {
       console.log('Respuesta del servidor:', response); 
 
       if (response && response.profile) {
-        alert('Contraseña cambiada con éxito');
-        clearErrors(); 
+        setSuccessMessage('Contraseña cambiada con éxito'); 
+        clearErrors();
+        reset(); 
       } else {
         console.error('Error al cambiar la contraseña:', response.message || 'Error desconocido');
       }
@@ -58,6 +62,14 @@ const Personal = ({ user }) => {
       <Stack direction="column" spacing={4} align="center" textAlign="center" p={4}>
         <Heading fontSize={'xl'}>Datos de perfil:</Heading>
         <Text color={useColorModeValue('gray.700', 'gray.400')}>{user.profile.email}</Text>
+        
+        {successMessage && (
+          <Alert status="success" borderRadius="md" mb={4}>
+            <AlertIcon />
+            <AlertTitle>{successMessage}</AlertTitle>
+          </Alert>
+        )}
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl id="new-password" isInvalid={!!errors.newPassword}>
             <FormLabel>Nueva contraseña</FormLabel>
@@ -79,7 +91,7 @@ const Personal = ({ user }) => {
             {errors.confirmPassword && <Text color="red.500">{errors.confirmPassword.message}</Text>}
           </FormControl>
 
-          <Button colorScheme="pink" mt={4} type="submit">
+          <Button colorScheme="orange" mt={4} type="submit">
             Cambiar contraseña
           </Button>
         </form>
@@ -89,6 +101,4 @@ const Personal = ({ user }) => {
 };
 
 export default Personal;
-
-
 

@@ -20,7 +20,6 @@ const ModalDateConfirm = ({ isOpen, onClose, onConfirm, status }) => {
       <ModalOverlay />
       <ModalContent p={5}>
         <ModalHeader position="relative">Confirmar Fecha</ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
           <FormControl>
             <FormLabel>Fecha de {status === 'start' ? 'inicio' : 'fin'} del ciclo</FormLabel>

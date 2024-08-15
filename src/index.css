@@ -10,18 +10,22 @@
   --color-light-gray: #f5f5f5aa;
   --color-white: #ffffffee;
   /* --color-white-2: #ffffff; */
-  --color-button-background: #d53f8c;
+  --color-button-background: #a02263;
   --color-light-pink: #ec64aaae;
   --color-pink-shadow: #b83280;
   --color-button-background-2: #007bff;
   --color-blur: #eaeaea9d;
   --color-light-gray: #ccc;
+  --color-green: #0f990fd3;
+  --color-orange: #dd6c2077;
+  --color-red: #bd1000;
+  --color-red-shadow: #9d0e01;
   /* --color-checkbox: #8400ff;
   --color-checkbox-2: #8400ff5c;
   --color-checkbox-3: #ff0000b6; */
   --color-light-blue: #f2fcfe;
   --color-light-blue-2: #318ba7;
-  --color-dark-blue: #036198e7;
+  --color-dark-blue: #063c60e7;
   /* spacings */
   --br-s: 8px;
   --br-m: 10px;

@@ -8,7 +8,7 @@ import { Box, Card, CardBody, CardHeader, Text, Button } from '@chakra-ui/react'
 import { useAuth } from '../../providers/AuthProvider';
 import useCurrentCycle from '../../hooks/useCurrentCycle/useCurrentCycle';
 import MenstrualData from '../../components/MenstrualData/MenstrualData';
-import Post from '../../components/Post/Post';
+
 
 const Principal = () => {
   const [status, setStatus] = useState('start');
@@ -77,7 +77,6 @@ const Principal = () => {
            />
         </CardBody>
       </Card>
-      {/* <Post/> */}
       <ModalDateConfirm
         isOpen={isOpen}
         onClose={onClose}

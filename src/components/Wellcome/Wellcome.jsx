@@ -1,20 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, Heading, Stack, Avatar, Button, useColorModeValue, 
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, 
-  ModalBody, ModalFooter, Input, useDisclosure 
+  ModalBody, ModalFooter, Input, useDisclosure, Alert, AlertIcon, AlertTitle 
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import useApiCall from '../../hooks/useApiCall/useApiCall'; 
 import './Wellcome.css';
 import { useAuth } from '../../providers/AuthProvider';
 
-const Wellcome = ({ user }) => {
+const Wellcome = () => {
   const { isOpen, onOpen, onClose } = useDisclosure(); 
-  const [profileImg, setProfileImg] = useState(user.profile.img);
   const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm();
   const callApi = useApiCall();  
-  const { token } = useAuth();
+  const { token, user } = useAuth(); 
+  const [profileImg, setProfileImg] = useState(user.profile.img);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await callApi({
+          method: 'GET',
+          endpoint: `/auth/${user._id}`, 
+          token: token,
+        });
+        if (response && response.profile && response.profile.img) {
+          setProfileImg(response.profile.img); 
+        }
+      } catch (error) {
+        console.error('Error al cargar los datos del usuario:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [user._id, token]);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -32,11 +52,9 @@ const Wellcome = ({ user }) => {
         token: token
       });
   
-      console.log('Respuesta del servidor:', response); 
-
       if (response && response.profile && response.profile.img) {
-        const file = data.img[0];
-        setProfileImg(URL.createObjectURL(file));
+        setProfileImg(response.profile.img);
+        setSuccessMessage('Imagen de perfil actualizada con éxito');
         onClose();
       } else {
         console.error('Error al actualizar la imagen de perfil:', response.message || 'Error desconocido');
@@ -47,8 +65,6 @@ const Wellcome = ({ user }) => {
       reset(); 
     }
   };
-  
-  
 
   return (
     <Box
@@ -62,10 +78,18 @@ const Wellcome = ({ user }) => {
       justifyContent="center"
       bg={useColorModeValue('white', 'gray.800')}
     >
+
+      {successMessage && (
+        <Alert status="success" borderRadius="md" mb={4}>
+          <AlertIcon />
+          <AlertTitle>{successMessage}</AlertTitle>
+        </Alert>
+      )}
+
       <Stack direction="column" spacing={4} align="center" textAlign="center" p={4}>
         <Avatar size="xl" src={profileImg} alt="avatar" mb={4} />
         <Heading fontSize={'xl'}>Hola de nuevo {user.profile.name}</Heading>
-        <Button colorScheme="pink" mt="80px" onClick={onOpen} className='wellcome-button'>
+        <Button colorScheme="orange" onClick={onOpen} className='wellcome-button'>
           Cambiar imagen de perfil
         </Button>
       </Stack>
@@ -84,7 +108,7 @@ const Wellcome = ({ user }) => {
             </ModalBody>
             <ModalFooter>
               <Button 
-                colorScheme="pink" 
+                colorScheme="orange" 
                 mr={3} 
                 onClick={onClose} 
                 isDisabled={isSubmitting}

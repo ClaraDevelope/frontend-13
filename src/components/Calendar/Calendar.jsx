@@ -50,6 +50,10 @@ const Calendar = ({ events, currentCycle, onSelectSlot, selectable }) => {
     ).values()
   );
 
+  const EventComponent = ({ event }) => {
+    return event.title === 'Menstruación' ? null : <span>{event.title}</span>;
+  };
+
   return (
     <div className="responsive-calendar">
       <BigCalendar
@@ -61,7 +65,8 @@ const Calendar = ({ events, currentCycle, onSelectSlot, selectable }) => {
         selectable={selectable}
         onSelectSlot={onSelectSlot}
         components={{
-          toolbar: CustomToolbar
+          toolbar: CustomToolbar,
+          event: EventComponent  
         }}
         views={['month', 'week', 'day']}
         defaultView="month"
@@ -71,4 +76,5 @@ const Calendar = ({ events, currentCycle, onSelectSlot, selectable }) => {
 };
 
 export default Calendar;
+
 

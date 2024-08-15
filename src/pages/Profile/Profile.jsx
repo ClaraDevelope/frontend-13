@@ -7,8 +7,7 @@ import MenstrualProfile from '../../components/MenstrualProfile/MenstrualProfile
 
 const Profile = () => {
   const { user } = useAuth();
-  console.log(user);
-  
+
   return (
     <div className='profile-grid'>
       <Wellcome user={user} />

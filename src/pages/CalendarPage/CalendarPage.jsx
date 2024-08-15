@@ -86,8 +86,8 @@ const CalendarPage = () => {
       setEvents(prevEvents => {
         const allEvents = [...prevEvents, {
           ...newEvent,
-          start: new Date(newEvent.date.split('/').reverse().join('-')), // Convierte DD/MM/YYYY a YYYY-MM-DD para Date
-          end: new Date(newEvent.date.split('/').reverse().join('-')), // Convierte DD/MM/YYYY a YYYY-MM-DD para Date
+          start: new Date(newEvent.date.split('/').reverse().join('-')), 
+          end: new Date(newEvent.date.split('/').reverse().join('-')), 
           title: newEvent.value
         }];
         const uniqueEvents = allEvents.reduce((acc, event) => {

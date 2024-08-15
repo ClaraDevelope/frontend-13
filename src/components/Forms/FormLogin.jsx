@@ -13,7 +13,6 @@ import {
   AlertIcon,
   Link
 } from '@chakra-ui/react';
-// import apiCall from '../../utils/API/api';
 import { useAuth } from '../../providers/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import useApiCall from '../../hooks/useApiCall/useApiCall';
@@ -58,7 +57,7 @@ const FormLogin = () => {
   };
 
   return (
-    <Container maxW="md" p={6} mt={16} borderWidth={1}  borderRadius="lg"  boxShadow="lg"  bg="var(--color-white)" position="relative" zIndex="999">
+    <Container maxW="md" p={6} mt="130px" borderWidth={1}  borderRadius="lg"  boxShadow="lg"  bg="var(--color-white)" position="relative" zIndex="999">
       <Heading as="h2" size="xl" textAlign="center" mb={4}>Iniciar sesión</Heading>
       <Text textAlign="center" mb={6}>Introduce tus datos para acceder a tu cuenta.</Text>
       {errorMessage && (
@@ -78,7 +77,7 @@ const FormLogin = () => {
               <FormLabel>Contraseña</FormLabel>
               <Input type="password" placeholder="Contraseña" {...methods.register('password', { required: true })} />
             </FormControl>
-            <Button colorScheme="pink" type="submit" size="lg" width="full">Iniciar sesión</Button>
+            <Button colorScheme="orange" type="submit" size="lg" width="full">Iniciar sesión</Button>
           </VStack>
         </form>
       </FormProvider>

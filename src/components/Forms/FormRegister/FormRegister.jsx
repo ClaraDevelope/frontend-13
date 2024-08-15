@@ -75,7 +75,7 @@ const FormRegister = () => {
   };
 
   return (
-    <Container maxW="md" mt={20} mb={8} p={6} borderWidth={1} borderRadius="lg" boxShadow="lg" bg="var(--color-white)">
+    <Container maxW="md" mt="130" mb={8} p={6} borderWidth={1} borderRadius="lg" boxShadow="lg" bg="var(--color-white)">
       <Heading as="h2" size="xl" textAlign="center" mb={4}>Registrarse</Heading>
       <Text textAlign="center" mb={6}>Escribe tus datos a continuación y ¡ya puedes empezar!</Text>
       {errorMessage && (
@@ -89,7 +89,7 @@ const FormRegister = () => {
           <VStack spacing={4}>
             <PersonalInfo />
             <HealthInfo />
-            <Button colorScheme="pink" type="submit" size="lg" width="full">Registrarse</Button>
+            <Button colorScheme="orange" type="submit" size="lg" width="full">Registrarse</Button>
           </VStack>
         </form>
       </FormProvider>

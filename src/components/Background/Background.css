@@ -1,7 +1,9 @@
 .background-wrapper {
-  /* background-image: url('/white-pink.webp'); */
-  background-image: url('/flor-bb.jpg');
-  background-size: cover;
+  /* background-image: url('/white-pink.webp');
+  background-image: url('/flor-bb.jpg'); */
+  /* background-image: url('/14.jpg'); */
+  background-image: url('/11.jpg');
+  /* background-size: contain ; */
   background-position: center;
   width: 100%;
   min-height: 100%;
@@ -14,13 +16,16 @@
   justify-content: center;
   padding-top: 5rem;
 }
+
 .background-overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.564);
+  /* background-color: rgba(255, 255, 255, 0.564); */
+  /* background-color: #c4a0e92c; */
+  background-color: #e3d7f080;
   z-index: 1;
 }
 

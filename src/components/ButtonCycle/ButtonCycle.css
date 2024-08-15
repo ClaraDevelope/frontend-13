@@ -9,14 +9,16 @@
 }
 
 .cycle-button.start {
-  background-color: #ff6f61; /* Color para 'Comienzo de la menstruación' */
+  background-color: var(--color-red);
+}
+.cycle-button.start:hover {
+  background-color: var(--color-red-shadow);
 }
 
 .cycle-button.end {
-  background-color: #4caf50; /* Color para 'Fin de la menstruación' */
+  background-color: #4caf50;
 }
 
-/* Estilos específicos para móvil */
 @media (max-width: 768px) {
   .cycle-button {
     font-size: 14px;

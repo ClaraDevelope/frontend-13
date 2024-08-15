@@ -10,7 +10,7 @@ const CustomToolbar = ({ label, onNavigate }) => (
       onClick={() => onNavigate('PREV')}
       style={{ marginRight: '20px' }}
     />
-    <span style={{ flex: 1, textAlign: 'center' }}>{label}</span>
+    <span style={{ flex: 1, textAlign: 'center',textTransform:'capitalize' }}>{label}</span>
     <IconButton
       icon={<ChevronRightIcon />}
       aria-label="Next month"

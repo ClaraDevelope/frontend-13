@@ -5,7 +5,8 @@ const TitleAndLogo = ({ to }) => (
   <div className='title'>
     <Link to={to}>
       <h1 className='principal-title'>MenstruApp</h1>
-      <img src="./flor.webp" alt="logo-menstruApp" className='logo'/>
+      <img src="./luna.png" alt="logo-menstruApp" className='logo'/>
+      {/* <img src="./flor.webp" alt="logo-menstruApp" className='logo'/> */}
     </Link>
   </div>
 );

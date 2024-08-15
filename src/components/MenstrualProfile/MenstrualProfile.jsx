@@ -1,13 +1,34 @@
 import React, { useState } from 'react';
-import { Box, Heading, Stack, Input, Button, FormControl, FormLabel, useColorModeValue } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { 
+  Box, Heading, Stack, Input, Button, FormControl, FormLabel, 
+  useColorModeValue, Alert, AlertIcon, AlertTitle 
+} from '@chakra-ui/react';
+import useApiCall from '../../hooks/useApiCall/useApiCall';
 
 const MenstrualProfile = ({ user }) => {
-  const [cycleLength, setCycleLength] = useState('');
-  const [menstruationLength, setMenstruationLength] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const { register, handleSubmit, reset } = useForm();
+  const callApi = useApiCall();
+  const token = user.token;
+  
+  const onSubmit = async (data) => {
+    try {
+      const result = await callApi({
+        method: 'POST',
+        endpoint: '/cycle/new',
+        body: data,
+        token: token,
+      });
 
-  const handleDataChange = () => {
-    console.log('Ciclo menstrual:', cycleLength);
-    console.log('Duración de la menstruación:', menstruationLength);
+      console.log('Respuesta de la API:', result);
+      
+
+      setSuccessMessage('Datos menstruales cambiados con éxito');
+      reset();
+    } catch (error) {
+      console.error('Error al cambiar los datos menstruales:', error);
+    }
   };
 
   return (
@@ -19,47 +40,54 @@ const MenstrualProfile = ({ user }) => {
       display="flex"
       flexDirection="column"
       justifyContent="center"
-      alignItems="center"  
+      alignItems="center"
       boxShadow="lg"
       p={6}
       bg={useColorModeValue('white', 'gray.800')}
     >
-      <Stack direction="column" spacing={6} align="center" textAlign="center">
-        <Heading fontSize="xl">Datos menstruales</Heading>
+      {/* Muestra el Alert si hay un mensaje de éxito */}
+      {successMessage && (
+        <Alert status="success" borderRadius="md" mb={4}>
+          <AlertIcon />
+          <AlertTitle>{successMessage}</AlertTitle>
+        </Alert>
+      )}
 
-        <FormControl id="cycle-length" textAlign="center">
-          <FormLabel>Duración del ciclo (días)</FormLabel>
-          <Input
-            type="number"
-            value={cycleLength}
-            onChange={(e) => setCycleLength(e.target.value)}
-            placeholder="Duración del ciclo"
-            size="md" 
-            textAlign="center"  
-            width="300px" 
-          />
-        </FormControl>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack direction="column" spacing={6} align="center" textAlign="center">
+          <Heading fontSize="xl">Datos menstruales</Heading>
 
-        <FormControl id="menstruation-length" textAlign="center">
-          <FormLabel>Duración de la menstruación (días)</FormLabel>
-          <Input
-            type="number"
-            value={menstruationLength}
-            onChange={(e) => setMenstruationLength(e.target.value)}
-            placeholder="Duración de la menstruación"
-            size="md"  
-            textAlign="center"  
-            width="300px"  
-          />
-        </FormControl>
+          <FormControl id="cycle-length" textAlign="center">
+            <FormLabel>Duración del ciclo (días)</FormLabel>
+            <Input
+              type="number"
+              placeholder="Ej: 28 (días)"
+              size="md"
+              textAlign="center"
+              width="300px"
+              {...register('averageCycleLength', { required: true })}
+            />
+          </FormControl>
 
-        <Button colorScheme="pink" onClick={handleDataChange}>
-          Cambiar datos menstruales
-        </Button>
-      </Stack>
+          <FormControl id="menstruation-length" textAlign="center">
+            <FormLabel>Duración de la menstruación (días)</FormLabel>
+            <Input
+              type="number"
+              placeholder="Ej: 4 (días)"
+              size="md"
+              textAlign="center"
+              width="300px"
+              {...register('averagePeriodLength', { required: true })}
+            />
+          </FormControl>
+
+          <Button colorScheme="orange" type="submit">
+            Cambiar datos menstruales
+          </Button>
+        </Stack>
+      </form>
     </Box>
   );
 };
 
 export default MenstrualProfile;
-

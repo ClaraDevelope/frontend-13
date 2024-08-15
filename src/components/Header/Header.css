@@ -52,17 +52,17 @@ header > ul {
   padding: 10px 16px;
   display: flex;
 }
-#register-link {
+/* #register-link {
   padding: 10px 16px;
   color: var(--color-white);
   font-weight: bold;
   background-color: var(--color-button-background);
   border-radius: 8px;
   transition: background-color 0.2s ease-in-out;
-}
-#register-link:hover {
+} */
+/* #register-link:hover {
   background-color: var(--color-pink-shadow);
-}
+} */
 
 .nav-link::before {
   content: '';
