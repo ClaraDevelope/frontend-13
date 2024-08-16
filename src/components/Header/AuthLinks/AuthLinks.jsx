@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 const AuthLinks = ({ handleLogout }) => (
   <>
+      <li>
+      <Link to='/Social' id='calendar-link' className='nav-link'>Social</Link>
+    </li>
     <li>
       <Link to='/Calendar' id='calendar-link' className='nav-link'>Calendario</Link>
     </li>

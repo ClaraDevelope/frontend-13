@@ -15,6 +15,8 @@ import Background from './components/Background/Background.jsx'
 import LoadingProvider from './providers/LoadingProvider.jsx'
 import Loading from './components/Loading/Loading.jsx'
 import Profile from './pages/Profile/Profile.jsx'
+import Footer from './components/Footer/Footer.jsx'
+import Social from './pages/Social/Social.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthProvider>
@@ -24,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <BrowserRouter basename='/'>
         <Header/>
         <Background>
+        
           <Loading/>
            <Routes> 
            <Route path='/' element={<App />} />
@@ -33,7 +36,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/Principal' element={<Principal/>} />
             <Route path='/Calendar' element={<CalendarPage/>} />
             <Route path='/Profile' element={<Profile/>}/>
+            <Route path='/Social' element={<Social/>}/>
           </Routes>
+          <Footer/>
          </Background>
        </BrowserRouter>
      </React.StrictMode>

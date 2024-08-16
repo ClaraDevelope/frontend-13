@@ -2,10 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Calendar from '../../components/Calendar/Calendar';
 import useCurrentCycle from '../../hooks/useCurrentCycle/useCurrentCycle';
 import { fetchEventsData } from '../../utils/eventsData';
-import { useDisclosure } from '@chakra-ui/react';
+import { Box, useDisclosure } from '@chakra-ui/react';
 import apiCall from '../../utils/API/api';
 import { useAuth } from '../../providers/AuthProvider'; // Usar contexto para obtener token
 import EventModal from '../../components/EventModal/EventModal';
+import CardCycle from '../../components/CardCycle/CardCycle';
 
 const CalendarPage = () => {
   const [events, setEvents] = useState([]);
@@ -126,7 +127,7 @@ const CalendarPage = () => {
   // }, [events]);
 
   return (
-    <>
+<>
       <Calendar events={events} currentCycle={currentCycle} onSelectSlot={handleSelectSlot} selectable />
       <EventModal 
         isOpen={isOpen} 
@@ -136,7 +137,9 @@ const CalendarPage = () => {
         handleAddEvent={handleAddEvent} 
         selectedDate={selectedDate}
       />
-    </>
+</>
+
+    
   );
 };
 
