@@ -57,7 +57,7 @@ const FormLogin = () => {
   };
 
   return (
-    <Container maxW="md" p={6} mt="130px" borderWidth={1}  borderRadius="lg"  boxShadow="lg"  bg="var(--color-white)" position="relative" zIndex="999">
+    <Container maxW="md" p={6} mt="130px" mb="130px" borderWidth={1}  borderRadius="lg"  boxShadow="lg"  bg="var(--color-white)" position="relative" zIndex="999">
       <Heading as="h2" size="xl" textAlign="center" mb={4}>Iniciar sesión</Heading>
       <Text textAlign="center" mb={6}>Introduce tus datos para acceder a tu cuenta.</Text>
       {errorMessage && (
