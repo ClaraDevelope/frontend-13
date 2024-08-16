@@ -2,19 +2,18 @@
 
 header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   padding: 30px;
   position: absolute;
   z-index: 999;
   width: 100%;
-  /* background-color: var(--color-white); */
 }
 .title {
-  /* margin-left: 20px; */
   display: flex;
   position: relative;
+  margin-right: 30px;
 }
 
 .principal-title {
@@ -28,15 +27,6 @@ header {
   position: absolute;
   top: 0;
   right: -40px;
-}
-header > input {
-  max-width: 700px;
-  margin-left: 55px;
-  margin-bottom: 20px;
-  padding: 5px;
-  border-radius: 8px;
-  flex-grow: 1;
-  outline: 1px solid var(--color-button-background);
 }
 
 header > ul {
@@ -52,17 +42,6 @@ header > ul {
   padding: 10px 16px;
   display: flex;
 }
-/* #register-link {
-  padding: 10px 16px;
-  color: var(--color-white);
-  font-weight: bold;
-  background-color: var(--color-button-background);
-  border-radius: 8px;
-  transition: background-color 0.2s ease-in-out;
-} */
-/* #register-link:hover {
-  background-color: var(--color-pink-shadow);
-} */
 
 .nav-link::before {
   content: '';

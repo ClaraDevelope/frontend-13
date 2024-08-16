@@ -1,4 +1,4 @@
-import { Card, CardHeader, Flex, Avatar, Box, Heading, Text, IconButton, CardBody, Image, CardFooter, Button } from "@chakra-ui/react";
+import { Card, CardHeader, Flex, Avatar, Box, Heading, Text, IconButton, CardBody, Image, CardFooter, Button, Divider } from "@chakra-ui/react";
 import React from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs'; 
 import { BiLike, BiChat, BiShare } from 'react-icons/bi'; 
@@ -34,6 +34,7 @@ const Post = ({ author, content, img, likes, comments, interactions }) => {
           alt='Post image'
         />
       )}
+      <Divider/>
       <CardFooter
         justify='space-between'
         flexWrap='wrap'

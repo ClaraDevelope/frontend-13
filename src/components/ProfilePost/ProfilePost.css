@@ -1,3 +1,10 @@
+.profile-post {
+  margin: 20px auto;
+  max-width: 450px;
+  position: relative;
+  padding: 20px 0;
+}
+
 @media (max-width: 768px) {
   .profile-post {
     margin-top: 100px;

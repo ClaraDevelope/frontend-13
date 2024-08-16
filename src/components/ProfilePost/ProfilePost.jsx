@@ -98,18 +98,13 @@ const ProfilePost = ({ user }) => {
   };
 
   return (
-    <Box p={4}>
+    <Box >
       <Card className='profile-post'
-        margin="20px auto"
-        position="relative"
         direction="column"
-        maxW="450px"
-        spacing={4}
         borderRadius="8px"
         align="center"
         textAlign="center"
         bg={useColorModeValue('white', 'gray.800')}
-        p={4}
       >
         <Avatar size="xl" src={profileImg} alt="avatar" />
         <Heading fontSize={'xl'}>{name}</Heading>

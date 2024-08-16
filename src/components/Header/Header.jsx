@@ -7,6 +7,7 @@ import NonAuthLinks from './NotAuthLinks/NotAuthLinks';
 import { useNavigate } from 'react-router-dom';
 import { Menu, MenuButton, MenuList, Button, useDisclosure } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import InputSearchUsers from '../InputSearchUsers/InputSearchUsers';
 
 const Header = () => {
   const { isAuthenticated, logout, user } = useAuth();
@@ -25,9 +26,9 @@ const Header = () => {
   return (
     <header className="header">
       <TitleAndLogo to={isAuthenticated ? '/Principal' : '/Home'} />
-      <input type="text" name="" id="" />
-
       {isAuthenticated ? (
+        <>
+        <InputSearchUsers user={user}/>
         <Menu isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
          <MenuButton
             as={Button}
@@ -51,6 +52,7 @@ const Header = () => {
             <AuthLinks handleLogout={handleLogout} onMenuItemClick={handleMenuItemClick} />
           </MenuList>
         </Menu>
+        </>
       ) : (
         <ul>
           <NonAuthLinks />
