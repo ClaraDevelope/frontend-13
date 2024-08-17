@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Button, Image, Text, Box, VStack, Avatar } from '@chakra-ui/react';
 import useApiCall from '../../hooks/useApiCall/useApiCall';
 import { useAuth } from '../../providers/AuthProvider';
+import ButtonToChat from '../../components/ButtonToChat/ButtonToChat';
 
 const Contacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -53,9 +54,7 @@ const Contacts = () => {
             <Text fontWeight="bold">{contact.user.profile.name}</Text> {/* Nombre del contacto */}
             <Text fontSize="sm" color="gray.500">{contact.user.profile.email}</Text> {/* Email del contacto */}
           </Box>
-          <Button ml="auto" size="sm" colorScheme="blue" bg="blue.700">
-            Enviar mensaje
-          </Button>
+         <ButtonToChat userId={contact.user._id}/>
         </Card>
       ))}
     </VStack>
