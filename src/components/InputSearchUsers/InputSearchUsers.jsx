@@ -4,6 +4,7 @@ import { Input, Button, Box, List, ListItem, Image, Text, Flex } from '@chakra-u
 import useApiCall from '../../hooks/useApiCall/useApiCall'; 
 // import { useAuth } from '../../providers/AuthProvider';
 import './InputSearchUsers.css'
+import ButtonSearchUsers from '../ButonSearchUsers/ButtonSearchUsers';
 
 const InputSearchUsers = ({user}) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -99,7 +100,7 @@ const InputSearchUsers = ({user}) => {
                     )}
                     <Text fontSize="md" color="gray.800">{user.profile.name}</Text>
                   </Flex>
-                  <Button ml="auto" size="sm">Añadir contacto</Button>
+                  <ButtonSearchUsers token={token} userToContact={user._id}/>
                 </ListItem>
               ))
             ) : (

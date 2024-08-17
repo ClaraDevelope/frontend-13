@@ -17,6 +17,7 @@ import Loading from './components/Loading/Loading.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import Social from './pages/Social/Social.jsx'
+import Contacts from './pages/Contacts/Contacts.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthProvider>
@@ -37,6 +38,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/Calendar' element={<CalendarPage/>} />
             <Route path='/Profile' element={<Profile/>}/>
             <Route path='/Social' element={<Social/>}/>
+            <Route path='/Contacts' element={<Contacts/>}/>
           </Routes>
           <Footer/>
          </Background>

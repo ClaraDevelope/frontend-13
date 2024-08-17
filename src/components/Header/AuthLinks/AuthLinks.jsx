@@ -15,6 +15,11 @@ const AuthLinks = ({ handleLogout, onMenuItemClick }) => (
       </Link>
     </li>
     <li>
+      <Link to='/Contacts' id='calendar-link' className='nav-link' onClick={onMenuItemClick}>
+        Contactos
+      </Link>
+    </li>
+    <li>
       <Link to='/Calendar' id='calendar-link' className='nav-link' onClick={onMenuItemClick}>
         Calendario
       </Link>
