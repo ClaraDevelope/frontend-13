@@ -1,25 +1,32 @@
-import { BASE_URL } from "../constants";
+import { BASE_URL, SERVER } from "../constants";
 
-const apiCall = async ({ method, endpoint, body = null, isFormData = false, token = null }) => {
-  const apiUrl = BASE_URL + endpoint;
+const apiCall = async ({
+  method,
+  endpoint,
+  body = null,
+  isFormData = false,
+  token = null,
+  server = false,
+}) => {
+  
+  const apiUrl = server ? SERVER + endpoint : BASE_URL + endpoint;
 
   const headers = {};
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
-  
+
   if (!isFormData) {
     headers['Content-Type'] = 'application/json';
-    // console.log('Cuerpo antes de stringify:', body); 
-    body = body ? JSON.stringify(body) : null;
-    // console.log('Cuerpo después de stringify:', body);
-  }
 
+    body = body ? JSON.stringify(body) : null;
+  
+  }
 
   const requestOptions = {
     method: method,
     headers: headers,
-    body: body
+    body: body,
   };
 
   try {

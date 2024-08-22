@@ -10,21 +10,22 @@ const useSocket = (receiverId, onReceiveMessage) => {
   useEffect(() => {
     const socketOptions = {
       path: '/socket.io',
-      transports: ['websocket'], 
+      transports: ['websocket'],      
       query: user.token ? { token: user.token } : {},
     };
 
     console.log('Conectando al servidor con opciones:', socketOptions);
 
     const newSocket = io(SERVER, socketOptions);
+    
 
     newSocket.on('connect', () => {
       console.log('Conectado al servidor de chat');
     });
 
-    // newSocket.on('connect_error', (err) => {
-    //   console.error('Error de conexión:', err);
-    // });
+    newSocket.on('error', (error) => {
+      console.error('Socket Error:', error);
+    });
 
     newSocket.on('receive_message', (data) => {
       console.log('Mensaje recibido:', data);
@@ -43,7 +44,7 @@ const useSocket = (receiverId, onReceiveMessage) => {
         console.log('Desconectado del servidor de chat');
       }
     };
-  }, []);
+  }, [user.token]);
 
   const sendMessage = (message) => {
     if (socket) {
@@ -59,8 +60,5 @@ const useSocket = (receiverId, onReceiveMessage) => {
 
   return { sendMessage };
 };
-
-
-
 
 export default useSocket;

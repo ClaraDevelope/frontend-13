@@ -18,7 +18,7 @@ import Profile from './pages/Profile/Profile.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import Social from './pages/Social/Social.jsx'
 import Contacts from './pages/Contacts/Contacts.jsx'
-import ChatPage from './pages/Chat/ChatPage.jsx'
+import ChatPage from './pages/ChatPage/ChatPage.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthProvider>
@@ -40,7 +40,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/Profile' element={<Profile/>}/>
             <Route path='/Social' element={<Social/>}/>
             <Route path='/Contacts' element={<Contacts/>}/>
-            <Route path='/Chat/:userId' element={<ChatPage/>}/>
+            <Route path='/Chat/:receiverId' element={<ChatPage/>}/>
           </Routes>
           <Footer/>
          </Background>
