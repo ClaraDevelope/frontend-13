@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Text, Box, Avatar, Button, SimpleGrid } from '@chakra-ui/react';
+import { Card, Text, Box, Avatar, SimpleGrid } from '@chakra-ui/react';
 import useApiCall from '../../hooks/useApiCall/useApiCall';
 import { useAuth } from '../../providers/AuthProvider';
 import ButtonToChat from '../../components/ButtonToChat/ButtonToChat';
@@ -36,7 +36,7 @@ const Contacts = () => {
     <SimpleGrid 
       columns={{ base: 1, sm: 2, md: 3, lg: 4 }} 
       spacing={4} 
-      m="100px"
+      m={{ base: '100px 0', md: '20px 100px' }}
     >
       {contacts.map((contact) => (
         <Card

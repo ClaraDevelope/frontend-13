@@ -4,12 +4,13 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   padding: 30px;
   position: absolute;
   z-index: 999;
   width: 100%;
+  flex-wrap: wrap;
 }
+
 .title {
   display: flex;
   position: relative;
@@ -21,6 +22,7 @@ header {
   font-weight: bold;
   font-family: 'Amatic SC', sans-serif;
 }
+
 .logo {
   width: 40px;
   height: auto;
@@ -29,12 +31,28 @@ header {
   right: -40px;
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.header-content .input-search {
+  flex: 1;
+  margin: 0 20px;
+}
+
+.header-content .user-menu-button {
+  margin-left: auto;
+}
+
 header > ul {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
 }
+
 .nav-link {
   color: var(--color-dark-blue);
   font-weight: bold;
@@ -59,4 +77,28 @@ header > ul {
 .nav-link:hover::before {
   transform-origin: left;
   transform: scaleX(1);
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .input-and-user {
+    width: 100%;
+    margin-left: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-search {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .menu-button {
+    align-self: flex-end;
+  }
 }

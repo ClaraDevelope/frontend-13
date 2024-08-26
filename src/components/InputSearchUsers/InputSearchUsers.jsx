@@ -2,18 +2,23 @@ import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Input, Button, Box, List, ListItem, Image, Text, Flex } from '@chakra-ui/react';
 import useApiCall from '../../hooks/useApiCall/useApiCall'; 
-// import { useAuth } from '../../providers/AuthProvider';
+import { useAuth } from '../../providers/AuthProvider'; // Asegúrate de importar el contexto
 import './InputSearchUsers.css'
 import ButtonSearchUsers from '../ButonSearchUsers/ButtonSearchUsers';
 
-const InputSearchUsers = ({user}) => {
+const InputSearchUsers = () => {
+  const { user } = useAuth(); // Obtén el usuario del contexto
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const callApi = useApiCall();
-  const token = user.token;
+  const token = user?.token;
 
   const handleSearch = async () => {
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
     if (searchTerm.trim() === '') {
       setResults([]);
       setHasSearched(false);
