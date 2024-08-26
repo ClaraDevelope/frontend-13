@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FaSearch } from 'react-icons/fa'; // Importa el icono de búsqueda
-import { Input, Button, Box, List, ListItem, Image, Text, Flex } from '@chakra-ui/react'; // Componentes de Chakra UI
+import { FaSearch } from 'react-icons/fa';
+import { Input, Button, Box, List, ListItem, Image, Text, Flex } from '@chakra-ui/react';
 import useApiCall from '../../hooks/useApiCall/useApiCall'; 
 // import { useAuth } from '../../providers/AuthProvider';
 import './InputSearchUsers.css'

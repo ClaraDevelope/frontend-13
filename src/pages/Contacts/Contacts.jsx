@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Text, Box, VStack, Avatar, Button } from '@chakra-ui/react';
+import { Card, Text, Box, Avatar, Button, SimpleGrid } from '@chakra-ui/react';
 import useApiCall from '../../hooks/useApiCall/useApiCall';
 import { useAuth } from '../../providers/AuthProvider';
 import ButtonToChat from '../../components/ButtonToChat/ButtonToChat';
@@ -28,23 +28,23 @@ const Contacts = () => {
     fetchContacts();
   }, [user?.token]);
 
-  const handleChatClick = (user) => {; 
+  const handleChatClick = (user) => { 
     navigate(`/Chat/${user._id}`); 
   };
 
   return (
-    <VStack spacing={4} align="stretch" mt="100px" mb="50px">
+    <SimpleGrid 
+      columns={{ base: 1, sm: 2, md: 3, lg: 4 }} 
+      spacing={4} 
+      m="100px"
+    >
       {contacts.map((contact) => (
         <Card
           key={contact.user._id}
-          mb={4}
           p={4}
           boxShadow="md"
           display="flex"
           alignItems="center"
-          maxW={{ base: '100%', md: '400px' }} 
-          w="full" 
-          mx="auto"
         >
           <Avatar
             size="lg"
@@ -61,7 +61,7 @@ const Contacts = () => {
           <ButtonToChat user={contact.user} onClick={() => handleChatClick(contact.user)} />
         </Card>
       ))}
-    </VStack>
+    </SimpleGrid>
   );
 };
 
