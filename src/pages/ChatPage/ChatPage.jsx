@@ -167,7 +167,14 @@ const ChatPage = () => {
   }, [messages]);
 
   return (
-    <VStack spacing={4} align="stretch" p={4} maxW="600px" mx="auto">
+    <VStack 
+      spacing={4} 
+      align="stretch" 
+      p={4} 
+      maxW="600px" 
+      mx="auto"
+      mt={{ base: '100px', md: '0' }}  // Aplica margin-top de 100px en móvil
+    >
       <Box
         borderWidth={1}
         borderRadius="lg"
