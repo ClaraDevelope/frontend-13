@@ -1,8 +1,5 @@
-/* .landing-container {
-  width: 100%;
-  padding: 30px;
-  columns: 5 320px;
-  column-gap: 0.5em;
-  position: relative;
-  margin-top: 5rem;
-} */
+@media (max-width: 765px) {
+  .home-title {
+    width: 100%;
+  }
+}
