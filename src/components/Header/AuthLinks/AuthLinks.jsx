@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiLogOut } from 'react-icons/fi'; // Importa el ícono de cerrar sesión
+import { FiLogOut } from 'react-icons/fi'; 
+import { MenuList } from '@chakra-ui/react';
 
 const AuthLinks = ({ handleLogout, onMenuItemClick }) => (
-  <>
+  <MenuList>
     <li>
       <Link to='/Principal' id='calendar-link' className='nav-link' onClick={onMenuItemClick}>
         Principal
@@ -38,7 +39,7 @@ const AuthLinks = ({ handleLogout, onMenuItemClick }) => (
       <FiLogOut style={{ marginRight: '8px' }} /> {/* Add some margin between icon and text */}
       Cerrar sesión
     </li>
-  </>
+  </MenuList>
 );
 
 export default AuthLinks;

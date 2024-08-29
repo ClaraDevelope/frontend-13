@@ -2,29 +2,26 @@ import React from 'react';
 import {
   Box,
   Flex,
-  Heading,
-  IconButton,
-  Input,
+  Button,
   Menu,
   MenuButton,
-  MenuList,
-  Button,
   useDisclosure,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { useAuth } from '../../providers/AuthProvider'; // Asegúrate de que este hook esté exportado correctamente
+import { useAuth } from '../../providers/AuthProvider'; 
 import TitleAndLogo from './TitleAndLogo/TitleAndLogo';
 import AuthLinks from './AuthLinks/AuthLinks';
 import NonAuthLinks from './NotAuthLinks/NotAuthLinks';
 import InputSearchUsers from '../InputSearchUsers/InputSearchUsers';
 import { useNavigate } from 'react-router-dom';
-import './Header.css'
+import './Header.css';
 
 const Header = () => {
   const { isAuthenticated, logout, user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+  const isSmallScreen = useBreakpointValue({ base: true, md: false });
 
   const handleLogout = () => {
     logout();
@@ -34,8 +31,6 @@ const Header = () => {
   const handleMenuItemClick = () => {
     onClose();
   };
-
-  const isSmallScreen = useBreakpointValue({ base: true, md: false });
 
   return (
     <Box
@@ -67,7 +62,7 @@ const Header = () => {
           <TitleAndLogo to={isAuthenticated ? '/Principal' : '/Home'} />
         </Flex>
         
-        {!isSmallScreen && (
+        {!isSmallScreen && isAuthenticated && (
           <Box flex="1" mx="20px">
             <InputSearchUsers />
           </Box>
@@ -93,18 +88,14 @@ const Header = () => {
             >
               {user.profile.name}
             </MenuButton>
-            <MenuList>
-              <AuthLinks handleLogout={handleLogout} onMenuItemClick={handleMenuItemClick} />
-            </MenuList>
+            <AuthLinks handleLogout={handleLogout} onMenuItemClick={handleMenuItemClick} />
           </Menu>
         ) : (
-          <Box as="ul">
-            <NonAuthLinks />
-          </Box>
+          <NonAuthLinks />
         )}
       </Flex>
       
-      {isSmallScreen && (
+      {isSmallScreen && isAuthenticated && (
         <Box
           width="full"
           display="flex"
@@ -120,6 +111,7 @@ const Header = () => {
 };
 
 export default Header;
+
 
 // import React from 'react';
 // import './Header.css';

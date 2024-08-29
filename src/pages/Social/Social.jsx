@@ -44,12 +44,13 @@ const Social = () => {
         {posts.map((post) => (
           <Post
             key={post._id} 
+            postId={post._id}
             author={post.author}
             content={post.content}
             img={post.img}
-            likes={post.likes}
+            initialLikes={post.likes}
             comments={post.comments}
-            interactions={post.interactions}
+
           />
         ))}
       </Box>
