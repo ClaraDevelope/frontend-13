@@ -8,7 +8,7 @@ import {
   useDisclosure,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { useAuth } from '../../providers/AuthProvider'; 
 import TitleAndLogo from './TitleAndLogo/TitleAndLogo';
 import AuthLinks from './AuthLinks/AuthLinks';
@@ -58,7 +58,7 @@ const Header = () => {
           mr={isSmallScreen ? '0' : '30px'}
           flex="1"
         >
-          <TitleAndLogo to={isAuthenticated ? '/Principal' : '/Home'} />
+             <TitleAndLogo to={isAuthenticated ? '/Principal' : '/Home'} />
         </Flex>
         
         {!isSmallScreen && isAuthenticated && (
@@ -71,16 +71,16 @@ const Header = () => {
           <Menu isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
             <MenuButton
               as={Button}
-              color="#2B5555"
+              color="blue.700"
               variant="ghost"
-              rightIcon={<ChevronDownIcon />}
+              rightIcon={<HamburgerIcon />}
               sx={{
                 _hover: {
-                  bg: 'teal.700',
+                  bg: 'blue.800',
                   color: 'white',
                 },
                 _active: {
-                  bg: 'teal.800',
+                  bg: 'blue.800',
                   color: 'white',
                 },
               }}

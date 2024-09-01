@@ -3,20 +3,22 @@ import { Flex, Box, Heading, Text, Button, Stack, Img } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import NonAuthLinks from '../../components/Header/NotAuthLinks/NotAuthLinks';
 import './Home.css';
+
 const Home = () => {
   return (
     <Flex className="landing-container" direction="column" alignItems="center">
       <Flex justifyContent="center" mt="4">
-        <Box position="relative">
-          <Img
-            src="/image-ppal.jpg"
-            borderRadius="50%"
-            opacity="45%"
-            // w="700px"
-            maxHeight="550px"
-            objectFit="cover"
-            zIndex={-1}
-          />
+        <Box position="relative" >
+        <Img
+          src="/tarot.jpg"
+          borderRadius="50%"
+          opacity="75%"
+          w="550px"
+          height={{ base: "420px", md: "auto" }}  
+          maxHeight="550px"
+          objectFit="cover"
+          zIndex={-1}
+        />
           <Box
             position="absolute"
             top="50%"
@@ -25,10 +27,11 @@ const Home = () => {
             textAlign="center"
             color="white"
           >
-            <Heading as="h1" size="2xl" mb="4" color="var(--color-dark-blue)" className='home-title' minWidth="500px">
-            Tu bienestar, nuestra comunidad
-            </Heading>
-            <Text fontSize="xl" mb="4"  color="var(--color-text)" maxWidth="350px" ml="75px" fontWeight="bold">
+            <Heading as="h1" size={{ base: "xl", md: "2xl" }} mb="8"color="var(--color-light-gray-2)" className="home-title"minWidth="500px" pr="10" pl="10"
+            >
+  Tu bienestar, nuestra comunidad
+</Heading>
+            <Text fontSize="xl" mb="4"  color="var(--color-light-gray)" maxWidth="350px" ml="75px" fontWeight="bold">
               Una app para monitorear tu salud y unirte a una comunidad de apoyo.
             </Text>
             <NonAuthLinks />
@@ -39,7 +42,7 @@ const Home = () => {
         <Heading as="h2" size="xl" mb="6">
           ¿Por qué unirte a nuestra comunidad?
         </Heading>
-        <Stack direction={['column', 'row']} spacing="6" justifyContent="center">
+        <Stack direction={['column', 'row']} spacing="6" justifyContent="center" alignItems="center">
         <Box maxW="300px" p="4" borderWidth="1px" borderRadius="lg" bg="var(--color-background)" boxShadow="md" >
           <Heading as="h3" size="md" mb="2">Organiza tu ciclo</Heading>
           <Text>Usa el calendario integrado para planificar y gestionar cada fase de tu ciclo.</Text>
@@ -61,7 +64,7 @@ const Home = () => {
           Únete a nuestra comunidad hoy
         </Heading>
         <Link to="/Register">
-          <Button colorScheme="orange" size="lg" mb="20px">
+          <Button colorScheme="orange" size="lg" mb="20px" boxShadow="lg">
             Registrarse
           </Button>
         </Link>

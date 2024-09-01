@@ -34,9 +34,9 @@ const AuthLinks = ({ handleLogout, onMenuItemClick }) => (
       onClick={() => { handleLogout(); onMenuItemClick(); }} 
       id='logout-button' 
       className='nav-link' 
-      style={{ display: 'flex', alignItems: 'center', cursor:'pointer' }} // Flex container to align icon and text
+      style={{ display: 'flex', alignItems: 'center', cursor:'pointer' }}
     >
-      <FiLogOut style={{ marginRight: '8px' }} /> {/* Add some margin between icon and text */}
+      <FiLogOut style={{ marginRight: '8px' }} />
       Cerrar sesión
     </li>
   </MenuList>
