@@ -27,7 +27,7 @@ const Home = () => {
             textAlign="center"
             color="white"
           >
-            <Heading as="h1" size={{ base: "xl", md: "2xl" }} mb="8"color="var(--color-light-gray-2)" className="home-title"minWidth="500px" pr="10" pl="10"
+            <Heading as="h1" size={{ base: "xl", md: "2xl" }} mb="8"color="var(--color-white)" className="home-title"minWidth="500px" pr="10" pl="10"
             >
   Tu bienestar, nuestra comunidad
 </Heading>
