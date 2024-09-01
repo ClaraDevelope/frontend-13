@@ -4,7 +4,7 @@ import useApiCall from '../../hooks/useApiCall/useApiCall';
 
 const ButtonSearchUsers = ({ token, userToContact }) => {
   const callApi = useApiCall();
-  const toast = useToast(); 
+  const toast = useToast();
 
   const handleAddContact = async () => {
     try {
@@ -15,7 +15,7 @@ const ButtonSearchUsers = ({ token, userToContact }) => {
       });
       
       toast({
-        title: 'Contacto añadido',
+        title: 'Solicitud enviada',
         description: response.message,
         status: 'success',
         duration: 5000,
@@ -24,8 +24,8 @@ const ButtonSearchUsers = ({ token, userToContact }) => {
       });
     } catch (error) {
       toast({
-        title: 'Error al añadir contacto',
-        description: 'No se pudo añadir el contacto. Intenta de nuevo más tarde.',
+        title: 'Error al enviar solicitud',
+        description: 'No se pudo enviar la solicitud. Intenta de nuevo más tarde.',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -42,3 +42,4 @@ const ButtonSearchUsers = ({ token, userToContact }) => {
 };
 
 export default ButtonSearchUsers;
+
