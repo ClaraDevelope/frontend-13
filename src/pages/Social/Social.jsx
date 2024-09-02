@@ -11,35 +11,39 @@ const Social = () => {
   const { user } = useAuth();
   const token = user.token;
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await callApi({
-          method: 'GET',
-          endpoint: '/post/',
-          token: token,
-        });
+  const fetchPosts = async () => {
+    try {
+      const response = await callApi({
+        method: 'GET',
+        endpoint: '/post/',
+        token: token,
+      });
 
-        console.log(response);
+      console.log(response);
 
-        if (response && Array.isArray(response)) {
-          setPosts(response); 
-        } else {
-          console.error('La respuesta no contiene un array de posts');
-          setPosts([]); 
-        }
-      } catch (error) {
-        console.log('No se ha realizado correctamente la llamada:', error);
+      if (response && Array.isArray(response)) {
+        setPosts(response); 
+      } else {
+        console.error('La respuesta no contiene un array de posts');
         setPosts([]); 
       }
-    };
+    } catch (error) {
+      console.log('No se ha realizado correctamente la llamada:', error);
+      setPosts([]); 
+    }
+  };
 
+  useEffect(() => {
     fetchPosts();
   }, [token]);
 
+  const handlePostCreated = () => {
+    fetchPosts(); 
+  };
+
   return (
     <>
-      <ProfilePost user={user} />
+      <ProfilePost user={user} onPostCreated={handlePostCreated} />
       <Box display="flex" flexDirection="column" alignItems="center" margin="0 auto" marginBottom="50px">
         {posts.map((post) => (
           <Post
@@ -50,7 +54,6 @@ const Social = () => {
             img={post.img}
             initialLikes={post.likes}
             comments={post.comments}
-
           />
         ))}
       </Box>
@@ -59,4 +62,5 @@ const Social = () => {
 };
 
 export default Social;
+
 

@@ -1,14 +1,20 @@
-import { Card, CardHeader, Flex, Avatar, Box, Heading, Text, CardBody, Image, CardFooter, Button, Divider, Input, VStack } from "@chakra-ui/react";
+import {
+  Card, CardHeader, Menu, MenuList, MenuItem, MenuButton, IconButton,
+  Flex, Avatar, Box, Heading, Text, CardBody, Image, CardFooter,
+  Button, Divider, Input, VStack
+} from "@chakra-ui/react";
 import React, { useState, useEffect } from 'react';
-import { BiLike } from 'react-icons/bi'; 
+import { BiLike } from 'react-icons/bi';
 import useApiCall from "../../hooks/useApiCall/useApiCall";
 import { useAuth } from "../../providers/AuthProvider";
+import { FaEllipsisV } from "react-icons/fa";
 
-const Post = ({ author, content, img, initialLikes, comments, postId }) => {
+const Post = ({ author, content, img, initialLikes, postId }) => {
+  const [isVisible, setIsVisible] = useState(true);
   const [likes, setLikes] = useState(initialLikes);
   const [hasLiked, setHasLiked] = useState(false);
   const [commentText, setCommentText] = useState('');
-  const [postComments, setPostComments] = useState(comments);
+  const [postComments, setPostComments] = useState([]);
   const callApi = useApiCall();
   const { user } = useAuth();
   const token = user.token;
@@ -19,8 +25,10 @@ const Post = ({ author, content, img, initialLikes, comments, postId }) => {
         const data = await callApi({ method: 'GET', endpoint: `/post/${postId}`, token });
         console.log('Post data:', data);
         setLikes(data.likes);
-        setHasLiked(data.likedBy.includes(user._id)); 
-        setPostComments(data.comments);
+        setHasLiked(data.likedBy.includes(user._id));
+        
+        const commentsData = await callApi({ method: 'GET', endpoint: `/post/${postId}/comments/`, token });
+        setPostComments(commentsData);
         
       } catch (error) {
         console.error('Error fetching post:', error);
@@ -47,13 +55,16 @@ const Post = ({ author, content, img, initialLikes, comments, postId }) => {
 
   const handleAddComment = async () => {
     try {
-      const newComment = await callApi({
+      await callApi({
         method: 'POST',
         endpoint: `/post/${postId}/comment`,
         token,
-        body: { text: commentText }
+        body: { 
+          text: commentText
+        }
       });
-      setPostComments([...postComments, newComment]);      
+      const commentsData = await callApi({ method: 'GET', endpoint: `/post/${postId}/comments/`, token });
+      setPostComments(commentsData);
       setCommentText('');
     } catch (error) {
       console.error('Error adding comment:', error);
@@ -61,7 +72,7 @@ const Post = ({ author, content, img, initialLikes, comments, postId }) => {
   };
 
   const handleDeleteComment = async (commentId) => {
-    try {    
+    try {
       await callApi({
         method: 'DELETE',
         endpoint: `/post/${postId}/comment/${commentId}`,
@@ -73,22 +84,53 @@ const Post = ({ author, content, img, initialLikes, comments, postId }) => {
     }
   };
 
+  const handleDeletePost = async () => {
+    try {
+      await callApi({
+        method: 'DELETE',
+        endpoint: `/post/${postId}/delete`,
+        token
+      });
+      setIsVisible(false);
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+
+  if (!isVisible) {
+    return null;  
+  }
+
   return (
-    <Card maxW='md' marginBottom="20px" minW="400px">
+    <Card maxW='md' marginBottom="20px" minW="400px" className="card">
       <CardHeader>
-        <Flex spacing='4'>
-          <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+        <Flex justify="space-between" alignItems="center">
+          <Flex gap='4' alignItems='center'>
             <Avatar name={author?.profile?.name} src={author?.profile?.img} />
             <Box>
               <Heading size='sm'>{author?.profile?.name}</Heading>
             </Box>
           </Flex>
+          {author?._id === user._id && (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<FaEllipsisV />}
+                variant="outline"
+                size="sm"
+              />
+              <MenuList>
+                <MenuItem onClick={handleDeletePost}>
+                  Borrar post
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
         </Flex>
       </CardHeader>
       <CardBody>
-        <Text>
-          {content}
-        </Text>
+        <Text>{content}</Text>
       </CardBody>
       {img && (
         <Image
@@ -97,7 +139,7 @@ const Post = ({ author, content, img, initialLikes, comments, postId }) => {
           alt='Post image'
         />
       )}
-      <Divider/>
+      <Divider />
       <CardFooter
         justify='space-between'
         flexWrap='wrap'
@@ -122,13 +164,34 @@ const Post = ({ author, content, img, initialLikes, comments, postId }) => {
       <VStack spacing={4} p={4}>
         {postComments.map(comment => (
           <Box key={comment._id} p={3} borderWidth={1} borderRadius="md">
-            <Text fontWeight="bold">
-              {comment.author ? comment.author.name : 'Unknown'}
-            </Text>
+            <Flex alignItems="center" mb={2}>
+              <Avatar
+                name={comment.author?.profile?.name || 'Unknown'}
+                src={comment.author?.profile?.img}
+                size="sm"
+                mr={2}
+              />
+              <Text fontWeight="bold" mr={2}>
+                {comment.author?.profile?.name || 'Unknown'}
+              </Text>
+              {comment.author?._id === user._id && (
+                <Menu ml="auto">
+                  <MenuButton
+                    as={IconButton}
+                    aria-label="Options"
+                    icon={<FaEllipsisV />}
+                    variant="outline"
+                    size="sm"
+                  />
+                  <MenuList>
+                    <MenuItem onClick={() => handleDeleteComment(comment._id)}>
+                      Borrar comentario
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              )}
+            </Flex>
             <Text>{comment.text}</Text>
-            <Button mt={2} colorScheme="red" onClick={() => handleDeleteComment(comment._id)}>
-              Borrar comentario
-            </Button>
           </Box>
         ))}
         <Input
@@ -137,12 +200,19 @@ const Post = ({ author, content, img, initialLikes, comments, postId }) => {
           placeholder="Escribe un comentario..."
           size="md"
         />
-        <Button onClick={handleAddComment} colorScheme="blue">Add Comment</Button>
+        <Button onClick={handleAddComment} colorScheme="blue">Añadir comentario</Button>
       </VStack>
     </Card>
   );
 };
 
 export default Post;
+
+
+
+
+
+
+
 
 

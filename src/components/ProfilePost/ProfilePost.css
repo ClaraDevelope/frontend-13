@@ -1,4 +1,4 @@
-.profile-post {
+.card {
   margin: 20px auto;
   max-width: 450px;
   position: relative;
@@ -6,7 +6,7 @@
 }
 
 @media (max-width: 768px) {
-  .profile-post {
+  #profile-post {
     margin-top: 100px;
     max-width: 100%;
   }

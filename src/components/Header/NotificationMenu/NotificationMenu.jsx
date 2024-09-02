@@ -96,7 +96,7 @@ const NotificationMenu = () => {
               {unreadCount}
             </Badge>
           )}
-        </Button>
+      </Button>
         <MenuList
           position="absolute"
           top="40px"
