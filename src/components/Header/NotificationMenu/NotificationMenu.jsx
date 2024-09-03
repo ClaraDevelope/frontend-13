@@ -31,6 +31,8 @@ const NotificationMenu = () => {
         endpoint: '/notifications/',
         token
       });
+      console.log(data);
+      
       setNotifications(data);
       setUnreadCount(data.filter(n => n.status === 'pending').length);
     } catch (error) {

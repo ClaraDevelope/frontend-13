@@ -14,15 +14,16 @@ import {
 import useSocket from '../../hooks/useSocket/useSocket';
 import useApiCall from '../../hooks/useApiCall/useApiCall';
 import { useParams } from 'react-router-dom';
+import { useAuth } from '../../providers/AuthProvider';
 
 const ChatPage = () => {
   const { receiverId } = useParams();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [receiver, setReceiver] = useState(null);
-
   const toast = useToast();
   const callApi = useApiCall();
+
 
   const getCurrentUserId = () => {
     const userFromStorage = localStorage.getItem('user');
@@ -115,7 +116,7 @@ const ChatPage = () => {
       });
       return;
     }
-
+  
     try {
       const response = await callApi({
         method: 'POST',
@@ -125,9 +126,9 @@ const ChatPage = () => {
           receiverId,
           text: message,
         },
-        server: true
+        server: true,
       });
-
+  
       if (response.success) {
         setMessages((prevMessages) => [
           ...prevMessages,
@@ -138,6 +139,26 @@ const ChatPage = () => {
           },
         ]);
         setMessage('');
+  
+        
+        const result = await callApi({
+          method: 'GET',
+          endpoint: `/messages/${receiverId}?currentUserId=${currentUserId}`,
+          token: localStorage.getItem('token'),
+          server: true,
+        });
+
+        if (result.messages) {
+          setMessages(result.messages);
+        } else {
+          toast({
+            title: 'Error',
+            description: result.error || 'No se pudo obtener los mensajes actualizados.',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
+        }
       } else {
         toast({
           title: 'Error',
@@ -158,7 +179,7 @@ const ChatPage = () => {
       });
     }
   };
-
+  
   useEffect(() => {
     const messagesEnd = document.getElementById('messages-end');
     if (messagesEnd) {
@@ -173,7 +194,7 @@ const ChatPage = () => {
       p={4} 
       maxW="600px" 
       mx="auto"
-      mt={{ base: '100px', md: '0' }}  // Aplica margin-top de 100px en móvil
+      mt={{ base: '100px', md: '0' }} 
     >
       <Box
         borderWidth={1}
