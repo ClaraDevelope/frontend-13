@@ -1,57 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import moment from 'moment';
 import 'moment/locale/es'; 
 import {
   Box, Badge, Menu, MenuList, MenuItem, Flex, Avatar, Text, Button, useDisclosure
 } from '@chakra-ui/react';
 import { BellIcon } from '@chakra-ui/icons';
-import useApiCall from '../../../hooks/useApiCall/useApiCall';
-import { useAuth } from '../../../providers/AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import useNotifications from '../../../hooks/useNotifications/useNotifications';
 
 moment.locale('es');
 
 const NotificationMenu = () => {
-  const { user } = useAuth();
-  const callApi = useApiCall();
-  const token = user?.token;
-  const [notifications, setNotifications] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
+  const {
+    notifications,
+    unreadCount,
+    handleNotificationResponse,
+    markNotificationAsRead,
+    setContacts
+  } = useNotifications();
+  
   const { isOpen: isNotificationOpen, onOpen: onNotificationOpen, onClose: onNotificationClose } = useDisclosure();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      fetchNotifications();
+  const handleNotificationClick = async (notification) => {
+    if (notification.type === 'message') {
+      await markNotificationAsRead(notification._id);
+      navigate(`/chat/${notification.sender._id}`);
+    } else if (notification.type === 'contact_request') {
+      await handleNotificationResponse(notification._id, 'accepted');
+      setContacts(prevContacts => [...prevContacts, notification.sender]);
     }
-  }, [user]);
-
-  const fetchNotifications = async () => {
-    try {
-      const data = await callApi({
-        method: 'GET',
-        endpoint: '/notifications/',
-        token
-      });
-      console.log(data);
-      
-      setNotifications(data);
-      setUnreadCount(data.filter(n => n.status === 'pending').length);
-    } catch (error) {
-      console.error('Error al obtener notificaciones:', error);
-    }
-  };
-
-  const handleNotificationResponse = async (notificationId, response) => {
-    try {
-      await callApi({
-        method: 'POST',
-        endpoint: `/notifications/respond/${notificationId}`,
-        body: { response },
-        token: user?.token,
-      });
-      fetchNotifications();
-    } catch (error) {
-      console.error('Error al responder a la notificación:', error);
-    }
+    onNotificationClose(); 
   };
 
   return (
@@ -60,25 +39,16 @@ const NotificationMenu = () => {
         <Button
           role="button"
           aria-label="Notificaciones"
-          color= 'blue.700'
-            backgroundColor= 'transparent'
-            borderRadius= '50%'
-            padding= '10px 2px'
-            cursor= 'pointer'
-            display= 'flex'
-            alignItems= 'center'
-            position= 'relative'
-            sx={{
-                _hover: 
-                {
-                bg: 'blue.800',
-                color: 'white',
-                },
-                _active: {
-                bg: 'blue.800',
-                color: 'white',
-                },
-              }}
+          color='blue.700'
+          backgroundColor='transparent'
+          borderRadius='50%'
+          padding='10px 2px'
+          cursor='pointer'
+          display='flex'
+          alignItems='center'
+          position='relative'
+          _hover={{ bg: 'blue.800', color: 'white' }}
+          _active={{ bg: 'blue.800', color: 'white' }}
           onClick={onNotificationOpen}
         >
           <BellIcon boxSize={6}/>
@@ -98,11 +68,11 @@ const NotificationMenu = () => {
               {unreadCount}
             </Badge>
           )}
-      </Button>
+        </Button>
         <MenuList
           position="absolute"
           top="40px"
-          right="-40px"
+          right="0"
           minWidth="300px"
         >
           {notifications.length > 0 ? (
@@ -115,6 +85,7 @@ const NotificationMenu = () => {
                 flexDirection="column"
                 alignItems="center"
                 p={3}
+                onClick={() => handleNotificationClick(notification)}
               >
                 <Flex width="full" alignItems="center" direction="column">
                   <Avatar
@@ -124,29 +95,33 @@ const NotificationMenu = () => {
                   />
                   <Box flex="1">
                     <Text fontWeight="bold">
-                      {`Solicitud de contacto de ${notification.sender.profile.name}`}
+                      {notification.type === 'contact_request'
+                        ? `Solicitud de contacto de ${notification.sender.profile.name}`
+                        : `Nuevo mensaje de ${notification.sender.profile.name}`}
                     </Text>
                     <Text fontSize="sm" color="gray.600">
                       {moment(notification.createdAt).fromNow()}
                     </Text>
                   </Box>
-                  <Flex mt={2}>
-                    <Button
-                      colorScheme="green"
-                      size="sm"
-                      onClick={() => handleNotificationResponse(notification._id, 'accepted')}
-                      mr={2}
-                    >
-                      Aceptar
-                    </Button>
-                    <Button
-                      colorScheme="red"
-                      size="sm"
-                      onClick={() => handleNotificationResponse(notification._id, 'rejected')}
-                    >
-                      Rechazar
-                    </Button>
-                  </Flex>
+                  {notification.type === 'contact_request' && (
+                    <Flex mt={2}>
+                      <Button
+                        colorScheme="green"
+                        size="sm"
+                        onClick={() => handleNotificationResponse(notification._id, 'accepted')}
+                        mr={2}
+                      >
+                        Aceptar
+                      </Button>
+                      <Button
+                        colorScheme="red"
+                        size="sm"
+                        onClick={() => handleNotificationResponse(notification._id, 'rejected')}
+                      >
+                        Rechazar
+                      </Button>
+                    </Flex>
+                  )}
                 </Flex>
               </MenuItem>
             ))
@@ -160,4 +135,14 @@ const NotificationMenu = () => {
 };
 
 export default NotificationMenu;
+
+
+
+
+
+
+
+
+
+
 

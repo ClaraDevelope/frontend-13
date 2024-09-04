@@ -3,7 +3,7 @@ import {
   Flex, Avatar, Box, Heading, Text, CardBody, Image, CardFooter,
   Button, Divider, Input, VStack
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BiLike } from 'react-icons/bi';
 import useApiCall from "../../hooks/useApiCall/useApiCall";
 import { useAuth } from "../../providers/AuthProvider";
@@ -15,91 +15,60 @@ const Post = ({ author, content, img, initialLikes, postId }) => {
   const [hasLiked, setHasLiked] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [postComments, setPostComments] = useState([]);
+  
   const callApi = useApiCall();
   const { user } = useAuth();
   const token = user.token;
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const data = await callApi({ method: 'GET', endpoint: `/post/${postId}`, token });
-        console.log('Post data:', data);
-        setLikes(data.likes);
-        setHasLiked(data.likedBy.includes(user._id));
-        
-        const commentsData = await callApi({ method: 'GET', endpoint: `/post/${postId}/comments/`, token });
-        setPostComments(commentsData);
-        
-      } catch (error) {
-        console.error('Error fetching post:', error);
-      }
-    };
-
-    fetchPost();
-  }, [postId, token, user._id]);
-
-  const handleLike = async () => {
+  const fetchPostData = useCallback(async () => {
     try {
-      const updatedPost = await callApi({
-        method: 'POST',
-        endpoint: `/post/${postId}/like`,
-        token,
-        body: { hasLiked: !hasLiked }
-      });
-      setLikes(updatedPost.likes);
-      setHasLiked(!hasLiked);
-    } catch (error) {
-      console.error('Error updating like:', error);
-    }
-  };
-
-  const handleAddComment = async () => {
-    try {
-      await callApi({
-        method: 'POST',
-        endpoint: `/post/${postId}/comment`,
-        token,
-        body: { 
-          text: commentText
-        }
-      });
+      const { likes, likedBy } = await callApi({ method: 'GET', endpoint: `/post/${postId}`, token });
+      setLikes(likes);
+      setHasLiked(likedBy.includes(user._id));
+      
       const commentsData = await callApi({ method: 'GET', endpoint: `/post/${postId}/comments/`, token });
       setPostComments(commentsData);
-      setCommentText('');
     } catch (error) {
-      console.error('Error adding comment:', error);
+      console.error('Error fetching post data:', error);
     }
-  };
+  }, [postId, token, user._id]);
 
-  const handleDeleteComment = async (commentId) => {
+  useEffect(() => {
+    fetchPostData();
+  }, [fetchPostData]);
+
+  const handleApiAction = async (endpoint, method, body = null, onSuccess = () => {}) => {
     try {
-      await callApi({
-        method: 'DELETE',
-        endpoint: `/post/${postId}/comment/${commentId}`,
-        token
-      });
-      setPostComments(postComments.filter(comment => comment._id !== commentId));
+      await callApi({ method, endpoint, token, body });
+      onSuccess();
     } catch (error) {
-      console.error('Error deleting comment:', error);
+      console.error(`Error during ${method} action at ${endpoint}:`, error);
     }
   };
 
-  const handleDeletePost = async () => {
-    try {
-      await callApi({
-        method: 'DELETE',
-        endpoint: `/post/${postId}/delete`,
-        token
-      });
-      setIsVisible(false);
-    } catch (error) {
-      console.error('Error deleting post:', error);
-    }
+  const handleLike = () => {
+    handleApiAction(`/post/${postId}/like`, 'POST', { hasLiked: !hasLiked }, () => {
+      setLikes(prevLikes => prevLikes + (hasLiked ? -1 : 1));
+      setHasLiked(!hasLiked);
+    });
   };
 
-  if (!isVisible) {
-    return null;  
-  }
+  const handleAddComment = () => {
+    handleApiAction(`/post/${postId}/comment`, 'POST', { text: commentText }, fetchPostData);
+    setCommentText('');
+  };
+
+  const handleDeleteComment = (commentId) => {
+    handleApiAction(`/post/${postId}/comment/${commentId}`, 'DELETE', null, () => {
+      setPostComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
+    });
+  };
+
+  const handleDeletePost = () => {
+    handleApiAction(`/post/${postId}/delete`, 'DELETE', null, () => setIsVisible(false));
+  };
+
+  if (!isVisible) return null;
 
   return (
     <Card maxW='md' marginBottom="20px" minW="400px" className="card">
@@ -121,9 +90,7 @@ const Post = ({ author, content, img, initialLikes, postId }) => {
                 size="sm"
               />
               <MenuList>
-                <MenuItem onClick={handleDeletePost}>
-                  Borrar post
-                </MenuItem>
+                <MenuItem onClick={handleDeletePost}>Borrar post</MenuItem>
               </MenuList>
             </Menu>
           )}
@@ -133,22 +100,10 @@ const Post = ({ author, content, img, initialLikes, postId }) => {
         <Text>{content}</Text>
       </CardBody>
       {img && (
-        <Image
-          objectFit='cover'
-          src={img}
-          alt='Post image'
-        />
+        <Image objectFit='cover' src={img} alt='Post image' />
       )}
       <Divider />
-      <CardFooter
-        justify='space-between'
-        flexWrap='wrap'
-        sx={{
-          '& > button': {
-            minW: '136px',
-          },
-        }}
-      >
+      <CardFooter justify='space-between' flexWrap='wrap'>
         <Button 
           flex='1' 
           variant={hasLiked ? 'solid' : 'ghost'} 
@@ -184,9 +139,7 @@ const Post = ({ author, content, img, initialLikes, postId }) => {
                     size="sm"
                   />
                   <MenuList>
-                    <MenuItem onClick={() => handleDeleteComment(comment._id)}>
-                      Borrar comentario
-                    </MenuItem>
+                    <MenuItem onClick={() => handleDeleteComment(comment._id)}>Borrar comentario</MenuItem>
                   </MenuList>
                 </Menu>
               )}
@@ -207,6 +160,7 @@ const Post = ({ author, content, img, initialLikes, postId }) => {
 };
 
 export default Post;
+
 
 
 

@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, Heading, Stack, Avatar, Button, useColorModeValue, 
-  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, 
-  ModalBody, ModalFooter, Input, useDisclosure, Alert, AlertIcon, AlertTitle 
-} from '@chakra-ui/react';
+import { Box, Heading, Stack, Avatar, Button, useColorModeValue, Alert, AlertIcon, AlertTitle, useDisclosure } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import useApiCall from '../../hooks/useApiCall/useApiCall'; 
-import './Wellcome.css';
 import { useAuth } from '../../providers/AuthProvider';
+import ImageSelectionModal from '../ImageSelectionModal/ImageSelectionModal';
 
 const Wellcome = () => {
   const { isOpen, onOpen, onClose } = useDisclosure(); 
@@ -16,6 +12,7 @@ const Wellcome = () => {
   const { token, user } = useAuth(); 
   const [profileImg, setProfileImg] = useState(user.profile.img);
   const [successMessage, setSuccessMessage] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -36,11 +33,11 @@ const Wellcome = () => {
     fetchUserData();
   }, [user._id, token]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     const formData = new FormData();
   
-    if (data.img && data.img[0]) {
-      formData.append('img', data.img[0]); 
+    if (selectedFile) {
+      formData.append('img', selectedFile); 
     }
  
     try {
@@ -66,6 +63,13 @@ const Wellcome = () => {
     }
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
   return (
     <Box
       width="100%"
@@ -78,7 +82,6 @@ const Wellcome = () => {
       justifyContent="center"
       bg={useColorModeValue('white', 'gray.800')}
     >
-
       {successMessage && (
         <Alert status="success" borderRadius="md" mb={4}>
           <AlertIcon />
@@ -89,45 +92,27 @@ const Wellcome = () => {
       <Stack direction="column" spacing={4} align="center" textAlign="center" p={4}>
         <Avatar size="xl" src={profileImg} alt="avatar" mb={4} />
         <Heading fontSize={'xl'}>Hola de nuevo {user.profile.name}</Heading>
-        <Button colorScheme="orange" onClick={onOpen} className='wellcome-button'>
+        <Button colorScheme="orange" onClick={onOpen}>
           Cambiar imagen de perfil
         </Button>
       </Stack>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Selecciona una nueva imagen de perfil</ModalHeader>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <ModalBody pt={20}>
-              <Input 
-                type="file" 
-                accept="image/*" 
-                {...register('img')} 
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Button 
-                colorScheme="orange" 
-                mr={3} 
-                onClick={onClose} 
-                isDisabled={isSubmitting}
-              >
-                Cerrar
-              </Button>
-              <Button 
-                variant="ghost" 
-                type="submit" 
-                isLoading={isSubmitting}
-              >
-                Guardar
-              </Button>
-            </ModalFooter>
-          </form>
-        </ModalContent>
-      </Modal>
+      <ImageSelectionModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onSave={handleSubmit(onSubmit)}
+        onImageChange={handleImageChange}
+        previewImage={selectedFile ? URL.createObjectURL(selectedFile) : profileImg}
+        headerText="Selecciona una nueva imagen de perfil"
+        saveButtonText="Guardar"
+      />
     </Box>
   );
 };
 
 export default Wellcome;
+
+
+
+
+

@@ -34,7 +34,6 @@ const apiCall = async ({
     if (!response.ok) {
       throw new Error('Error al enviar los datos');
     }
-
     const responseData = await response.json();
     console.log('Respuesta de la API:', responseData);
     return responseData;

@@ -19,8 +19,6 @@ const Social = () => {
         token: token,
       });
 
-      console.log(response);
-
       if (response && Array.isArray(response)) {
         setPosts(response); 
       } else {

@@ -3,6 +3,9 @@
   max-width: 800px;
   margin: 50px auto;
 }
+.rbc-button-link {
+  pointer-events: none;
+}
 
 @media (min-width: 1024px) {
   .responsive-calendar {

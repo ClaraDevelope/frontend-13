@@ -13,3 +13,4 @@ export const getUserData = async (userId, token) => {
     throw error;
   }
 };
+

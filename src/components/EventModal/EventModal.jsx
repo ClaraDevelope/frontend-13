@@ -91,7 +91,7 @@ const EventModal = ({ isOpen, onClose, selectedDate, handleAddEvent }) => {
         <ModalHeader textAlign="center" fontSize="lg" fontWeight="bold" position="relative">
           Añadir Entrada
         </ModalHeader>
-        <ModalCloseButton onClose={onClose}/>
+        <ModalCloseButton zIndex="99999"/>
         <ModalBody>
           <FormControl>
             <FormLabel>Tipo de entrada</FormLabel>
