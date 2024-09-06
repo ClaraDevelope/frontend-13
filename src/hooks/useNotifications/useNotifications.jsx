@@ -14,7 +14,7 @@ const useNotifications = () => {
       fetchNotifications();
       fetchContacts();
     }
-  }, [user]); 
+  }, []); 
 
   const fetchNotifications = useCallback(async () => {
     if (!user?.token) return;

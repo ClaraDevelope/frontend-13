@@ -26,8 +26,13 @@ const NotificationMenu = () => {
     if (notification.type === 'message') {
       await markNotificationAsRead(notification._id);
       navigate(`/chat/${notification.sender._id}`);
-    } else if (notification.type === 'contact_request') {
-      await handleNotificationResponse(notification._id, 'accepted');
+    }
+    onNotificationClose(); 
+  };
+
+  const handleContactResponse = async (notification, response) => {
+    await handleNotificationResponse(notification._id, response);
+    if (response === 'accepted') {
       setContacts(prevContacts => [...prevContacts, notification.sender]);
     }
     onNotificationClose(); 
@@ -85,7 +90,6 @@ const NotificationMenu = () => {
                 flexDirection="column"
                 alignItems="center"
                 p={3}
-                onClick={() => handleNotificationClick(notification)}
               >
                 <Flex width="full" alignItems="center" direction="column">
                   <Avatar
@@ -108,7 +112,7 @@ const NotificationMenu = () => {
                       <Button
                         colorScheme="green"
                         size="sm"
-                        onClick={() => handleNotificationResponse(notification._id, 'accepted')}
+                        onClick={() => handleContactResponse(notification, 'accepted')}
                         mr={2}
                       >
                         Aceptar
@@ -116,7 +120,7 @@ const NotificationMenu = () => {
                       <Button
                         colorScheme="red"
                         size="sm"
-                        onClick={() => handleNotificationResponse(notification._id, 'rejected')}
+                        onClick={() => handleContactResponse(notification, 'rejected')}
                       >
                         Rechazar
                       </Button>
@@ -135,6 +139,7 @@ const NotificationMenu = () => {
 };
 
 export default NotificationMenu;
+
 
 
 

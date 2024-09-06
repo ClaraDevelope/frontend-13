@@ -11,9 +11,15 @@ const ButtonSearchUsers = ({ token, userToContact }) => {
   const [isContact, setIsContact] = useState(false);
 
   useEffect(() => {
-   
     if (contacts.length > 0) {
-      setIsContact(contacts.some(contact => contact._id === userToContact));
+      const contactExists = contacts.some(contact => {
+        console.log(`Verificando si el usuario con ID ${contact.user._id} es igual al usuario buscado ${userToContact}`);
+        return contact.user._id === userToContact;
+      });
+      
+      if (contactExists) {
+        setIsContact(true);
+      }
     }
   }, [contacts, userToContact]);
 
@@ -48,13 +54,23 @@ const ButtonSearchUsers = ({ token, userToContact }) => {
   };
 
   return (
-    <Button ml="auto" size="sm" onClick={handleAddContact} disabled={isContact || requestSent}>
+    <Button
+      ml="auto"
+      size="sm"
+      onClick={handleAddContact}
+      isDisabled={requestSent} 
+      colorScheme={isContact ? 'green' : requestSent ? 'black' : 'blue'} 
+      variant={requestSent ? 'outline' : 'solid'} 
+      sx={isContact ? { pointerEvents: 'none', opacity: 1 } : {}}
+    >
       {isContact ? 'Ya es tu contacto' : requestSent ? 'Solicitud enviada' : 'Añadir contacto'}
     </Button>
   );
 };
 
 export default ButtonSearchUsers;
+
+
 
 
 

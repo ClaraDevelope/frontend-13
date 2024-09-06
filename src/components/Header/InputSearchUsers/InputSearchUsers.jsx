@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Input, Button, Box, List, ListItem, Image, Text, Flex, Badge } from '@chakra-ui/react';
 import useApiCall from '../../../hooks/useApiCall/useApiCall'; 
@@ -13,9 +13,9 @@ const InputSearchUsers = () => {
   const [results, setResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [contacts, setContacts] = useState([]);
+
   useEffect(() => {
     if (!token) return;
-    
     const fetchContacts = async () => {
       try {
         const data = await callApi({
@@ -28,33 +28,26 @@ const InputSearchUsers = () => {
         console.error('Error al obtener contactos:', error);
       }
     };
-
+  
     fetchContacts();
-  }, [token]); 
+  }, []);
 
-  const handleSearch = async () => {
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
-    if (searchTerm.trim() === '') {
-      setResults([]);
-      setHasSearched(false);
-      return;
-    }
+  const handleSearch = useCallback(async () => {
+  if (!token || searchTerm.trim() === '') return;
+  
+  try {
+    const data = await callApi({
+      method: 'GET',
+      endpoint: `/auth/search?query=${encodeURIComponent(searchTerm)}`,
+      token: token
+    });
+    setResults(data);
+    setHasSearched(true);
+  } catch (error) {
+    console.error('Error al buscar usuarios:', error);
+  }
+}, [token, searchTerm]);
 
-    try {
-      const data = await callApi({
-        method: 'GET',
-        endpoint: `/auth/search?query=${encodeURIComponent(searchTerm)}`,
-        token: token
-      });
-      setResults(data);
-      setHasSearched(true);
-    } catch (error) {
-      console.error('Error al buscar usuarios:', error);
-    }
-  };
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -115,7 +108,8 @@ const InputSearchUsers = () => {
             {results.length > 0 ? (
               results.map((user) => {
                 const isContact = contacts.some(contact => contact._id === user._id);
-
+                {console.log(isContact);
+                }
                 return (
                   <ListItem key={user._id} display="flex" alignItems="center" p={2} borderBottom="1px" borderColor="gray.200">
                     <Flex flex="1" alignItems="center">
