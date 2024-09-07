@@ -19,6 +19,7 @@ import Footer from './components/Footer/Footer.jsx'
 import Social from './pages/Social/Social.jsx'
 import Contacts from './pages/Contacts/Contacts.jsx'
 import ChatPage from './pages/ChatPage/ChatPage.jsx'
+import NotFound from './pages/NotFound/NotFound.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthProvider>
@@ -41,6 +42,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/Social' element={<Social/>}/>
             <Route path='/Contacts' element={<Contacts/>}/>
             <Route path='/Chat/:receiverId' element={<ChatPage/>}/>
+            <Route path='*' element={<NotFound />} />
           </Routes>
           <Footer/>
          </Background>

@@ -24,7 +24,7 @@ const NotificationMenu = () => {
 
   const handleNotificationClick = async (notification) => {
     if (notification.type === 'message') {
-      await markNotificationAsRead(notification._id);
+      await markNotificationAsRead(notification._id); 
       navigate(`/chat/${notification.sender._id}`);
     }
     onNotificationClose(); 
@@ -54,7 +54,7 @@ const NotificationMenu = () => {
           position='relative'
           _hover={{ bg: 'blue.800', color: 'white' }}
           _active={{ bg: 'blue.800', color: 'white' }}
-          onClick={onNotificationOpen}
+          onClick={onNotificationOpen} // Se abre el menú
         >
           <BellIcon boxSize={6}/>
           {unreadCount > 0 && (
@@ -90,6 +90,7 @@ const NotificationMenu = () => {
                 flexDirection="column"
                 alignItems="center"
                 p={3}
+                onClick={() => handleNotificationClick(notification)} // Manejador del click en la notificación
               >
                 <Flex width="full" alignItems="center" direction="column">
                   <Avatar
@@ -139,6 +140,7 @@ const NotificationMenu = () => {
 };
 
 export default NotificationMenu;
+
 
 
 
