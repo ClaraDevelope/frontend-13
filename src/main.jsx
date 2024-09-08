@@ -19,7 +19,7 @@ import Footer from './components/Footer/Footer.jsx'
 import Social from './pages/Social/Social.jsx'
 import Contacts from './pages/Contacts/Contacts.jsx'
 import ChatPage from './pages/ChatPage/ChatPage.jsx'
-import NotFound from './pages/NotFound/NotFound.jsx'
+import NotFound from './pages/404/NotFound.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 <AuthProvider>
