@@ -29,7 +29,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <BrowserRouter basename='/'>
         <Header/>
         <Background>
-        
           <Loading/>
            <Routes> 
            <Route path='/' element={<App />} />
