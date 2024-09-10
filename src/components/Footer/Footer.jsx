@@ -46,10 +46,10 @@ const Footer = () => {
         <Stack spacing={4} flex={{ base: 1, md: 2 }}>
           <Text fontSize="lg" fontWeight="bold">Enlaces Útiles</Text>
           <Stack spacing={2}>
-            <Link href="/about" color="whiteAlpha.800">Sobre Nosotros</Link>
-            <Link href="/services" color="whiteAlpha.800">Servicios</Link>
-            <Link href="/privacy" color="whiteAlpha.800">Política de Privacidad</Link>
-            <Link href="/contact" color="whiteAlpha.800">Contacto</Link>
+            <Link href="/#" color="whiteAlpha.800">Sobre Nosotros</Link>
+            <Link href="/#" color="whiteAlpha.800">Servicios</Link>
+            <Link href="/#" color="whiteAlpha.800">Política de Privacidad</Link>
+            <Link href="/#" color="whiteAlpha.800">Contacto</Link>
           </Stack>
         </Stack>
 
