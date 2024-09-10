@@ -90,7 +90,7 @@ const NotificationMenu = () => {
                 flexDirection="column"
                 alignItems="center"
                 p={3}
-                onClick={() => handleNotificationClick(notification)} // Manejador del click en la notificación
+                onClick={() => handleNotificationClick(notification)} 
               >
                 <Flex width="full" alignItems="center" direction="column">
                   <Avatar
