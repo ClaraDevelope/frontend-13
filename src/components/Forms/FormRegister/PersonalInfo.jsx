@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // Importa useState
 import { useFormContext } from 'react-hook-form';
 import { 
   FormControl, 
@@ -10,9 +10,13 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon } from '@chakra-ui/icons';
 
-
 const PersonalInfo = () => {
   const { register } = useFormContext();
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
+
+  const handleClick = () => {
+    setShowPassword((prev) => !prev); // Alternar el estado
+  };
 
   return (
     <>
@@ -27,9 +31,13 @@ const PersonalInfo = () => {
       <FormControl id="password" isRequired>
         <FormLabel>Contraseña</FormLabel>
         <InputGroup>
-          <Input type="password" placeholder="Contraseña" {...register('password')} />
+          <Input 
+            type={showPassword ? 'text' : 'password'} // Cambia el tipo de entrada
+            placeholder="Contraseña" 
+            {...register('password')} 
+          />
           <InputRightElement h="full">
-            <Button variant="ghost">
+            <Button variant="ghost" onClick={handleClick}>
               <ViewIcon />
             </Button>
           </InputRightElement>
@@ -43,4 +51,4 @@ const PersonalInfo = () => {
   );
 };
 
-export default PersonalInfo
+export default PersonalInfo;
