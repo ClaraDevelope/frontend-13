@@ -12,10 +12,10 @@ import { ViewIcon } from '@chakra-ui/icons';
 
 const PersonalInfo = () => {
   const { register } = useFormContext();
-  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
+  const [showPassword, setShowPassword] = useState(false); 
 
   const handleClick = () => {
-    setShowPassword((prev) => !prev); // Alternar el estado
+    setShowPassword((prev) => !prev); 
   };
 
   return (
@@ -32,7 +32,7 @@ const PersonalInfo = () => {
         <FormLabel>Contraseña</FormLabel>
         <InputGroup>
           <Input 
-            type={showPassword ? 'text' : 'password'} // Cambia el tipo de entrada
+            type={showPassword ? 'text' : 'password'} 
             placeholder="Contraseña" 
             {...register('password')} 
           />
