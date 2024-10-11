@@ -32,10 +32,11 @@ const apiCall = async ({
   try {
     const response = await fetch(apiUrl, requestOptions);
     if (!response.ok) {
-      throw new Error('Error al enviar los datos');
+      const errorData = await response.json();
+      throw new Error(errorData || 'Error al enviar los datos');
     }
     const responseData = await response.json();
-    console.log('Respuesta de la API:', responseData);
+    // console.log('Respuesta de la API:', responseData);
     return responseData;
   } catch (error) {
     console.error('Error al enviar la solicitud:', error);

@@ -7,7 +7,8 @@ const NonAuthLinks = () => (
   <Box as="ul" className="non-auth-links" mt="30px">
     <li>
       <Link to='/Login' id='login-link'>
-      <Button id='login-link' variant='outline' colorScheme="white" fontWeight="bold" boxShadow="lg" mr="10px">Iniciar sesión</Button>
+      <Button id='login-link' variant='outline' 
+      colorScheme="whiteAlpha" color="white" boxShadow="lg" mr="10px">Iniciar sesión</Button>
       </Link>
     </li>
     <li>

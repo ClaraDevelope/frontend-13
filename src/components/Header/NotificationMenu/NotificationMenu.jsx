@@ -2,7 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import 'moment/locale/es'; 
 import {
-  Box, Badge, Menu, MenuList, MenuItem, Flex, Avatar, Text, Button, useDisclosure
+  Box, Badge, Menu, MenuList, MenuItem, Flex, Avatar, Text, Button, useDisclosure,
+  useMediaQuery
 } from '@chakra-ui/react';
 import { BellIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +22,7 @@ const NotificationMenu = () => {
   
   const { isOpen: isNotificationOpen, onOpen: onNotificationOpen, onClose: onNotificationClose } = useDisclosure();
   const navigate = useNavigate();
+  const [isLargerThan400] = useMediaQuery("(max-width: 400px)");
 
   const handleNotificationClick = async (notification) => {
     if (notification.type === 'message') {
@@ -54,7 +56,7 @@ const NotificationMenu = () => {
           position='relative'
           _hover={{ bg: 'blue.800', color: 'white' }}
           _active={{ bg: 'blue.800', color: 'white' }}
-          onClick={onNotificationOpen} // Se abre el menú
+          onClick={onNotificationOpen} 
         >
           <BellIcon boxSize={6}/>
           {unreadCount > 0 && (
@@ -77,7 +79,8 @@ const NotificationMenu = () => {
         <MenuList
           position="absolute"
           top="40px"
-          right="0"
+          right="-10"
+          left={isLargerThan400 ? "-220" : "auto"}
           minWidth="300px"
         >
           {notifications.length > 0 ? (

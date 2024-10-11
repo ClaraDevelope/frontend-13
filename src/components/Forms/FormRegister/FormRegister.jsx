@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { Container, VStack, Button, Heading, Text, Link, Alert, AlertIcon, usePanGesture} from '@chakra-ui/react';
+import { Container, VStack, Button, Heading, Text, Link, Alert, AlertIcon} from '@chakra-ui/react';
 import  PersonalInfo from './PersonalInfo'
 import HealthInfo  from './HealthInfo'
 import useApiCall from '../../../hooks/useApiCall/useApiCall';

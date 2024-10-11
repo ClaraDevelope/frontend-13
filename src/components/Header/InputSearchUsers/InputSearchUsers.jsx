@@ -14,24 +14,6 @@ const InputSearchUsers = () => {
   const [hasSearched, setHasSearched] = useState(false);
   const [contacts, setContacts] = useState([]);
 
-  useEffect(() => {
-    if (!token) return;
-    const fetchContacts = async () => {
-      try {
-        const data = await callApi({
-          method: 'GET',
-          endpoint: '/auth/contacts/',
-          token: token
-        });
-        setContacts(data.contacts || []);
-      } catch (error) {
-        console.error('Error al obtener contactos:', error);
-      }
-    };
-  
-    fetchContacts();
-  }, []);
-
   const handleSearch = useCallback(async () => {
   if (!token || searchTerm.trim() === '') return;
   

@@ -25,7 +25,7 @@ const useCurrentCycle = (cycleId, setEvents) => {
     try {
 
       const response = await fetchCurrentCycleData(apiCall, cycleId, token, {});
-      console.log('Datos del ciclo menstrual recibidos del backend:', response);
+      // console.log('Datos del ciclo menstrual recibidos del backend:', response);
 
       setCurrentCycle(response);
 
